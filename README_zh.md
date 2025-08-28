@@ -109,7 +109,7 @@ switch2ai - 一个 JetBrains IDE 插件，实现 JetBrains IDE 与各种 AI 代�
 ### 项目构建
 ```bash
 # 克隆仓库
-git clone http://gitlab.alibaba-inc.com/jiangxinhao.jxh/switch2ai.git
+git clone https://github.com/sinberCS/switch2ai.git 
 
 # 构建插件
 cd switch2ai

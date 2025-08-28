@@ -108,7 +108,7 @@ switch2ai - A JetBrains IDE plugin enabling seamless collaboration between JetBr
 ### Build Project
 ```bash
 # Clone repository
-git clone http://gitlab.alibaba-inc.com/jiangxinhao.jxh/switch2ai.git
+git clone https://github.com/sinberCS/switch2ai.git 
 
 # Build plugin
 cd switch2ai
