@@ -50,15 +50,45 @@ switch2ai - 一个 JetBrains IDE 插件，实现 JetBrains IDE 与各种 AI 代�
   - 完全可配置的命令模板
   - 动态命令注册和管理
 
+## 📦 下载插件
+
+### 最新版本
+- **下载**: [switch2ai-0.1.0.zip](https://github.com/sinberCS/switch2ai/releases/latest/download/switch2ai-0.1.0.zip)
+- **版本**: 0.1.0
+- **发布日期**: 最新
+- **兼容性**: JetBrains IDEs 2022.3+
+
+### 历史版本
+- [所有版本](https://github.com/sinberCS/switch2ai/releases)
+
 ## 🛠️ 安装指南
 
-### 方式一：本地安装
-1. 下载最新版插件包
-2. IDE → `Settings` → `Plugins` → `⚙️`→ `Install Plugin from Disk...`
-3. 选择下载的插件包
-4. 点击 `OK` 生效
+### 方式一：本地安装（推荐）
+1. **下载** 最新插件包，从 [Releases 页面](https://github.com/sinberCS/switch2ai/releases)
+2. **打开** 你的 JetBrains IDE
+3. **进入** `设置` (Windows/Linux) 或 `偏好设置` (macOS)
+4. **导航到** `插件` → `⚙️` → `从磁盘安装插件...`
+5. **选择** 下载的 `.zip` 文件
+6. **点击** `确定` 应用更改
+7. **重启** IDE（当提示时）
 
-### 方式二(暂未支持)：通过 JetBrains 插件市场安装
+### 方式二：从源码构建
+```bash
+# 克隆仓库
+git clone https://github.com/sinberCS/switch2ai.git
+
+# 构建插件
+cd switch2ai
+./gradlew buildPlugin
+
+# 插件包将生成在 build/distributions/ 目录中
+# 使用方法 1 安装生成的 .zip 文件
+```
+
+### 方式三：通过 JetBrains 市场安装（即将推出）
+- 插件将在官方 JetBrains 市场上可用
+- 直接从 IDE 一键安装
+- 自动更新
 
 ## 🚀 使用说明
 

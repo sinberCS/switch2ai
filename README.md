@@ -48,15 +48,45 @@ switch2ai - A JetBrains IDE plugin enabling seamless collaboration between JetBr
     - Completely customizable command templates
     - Dynamic command registration and management
 
+## 📦 Download Plugin
+
+### Latest Release
+- **Download**: [switch2ai-0.1.0.zip](https://github.com/sinberCS/switch2ai/releases/latest/download/switch2ai-0.1.0.zip)
+- **Version**: 0.1.0
+- **Release Date**: Latest
+- **Compatibility**: JetBrains IDEs 2022.3+
+
+### Previous Versions
+- [All Releases](https://github.com/sinberCS/switch2ai/releases)
+
 ## 🛠️ Installation Guide
 
-### Method 1: Local Installation
-1. Download the latest plugin package
-2. IDE → `Settings` → `Plugins` → `⚙️`→ `Install Plugin from Disk...`
-3. Select the downloaded plugin package
-4. Click `OK` to apply changes
+### Method 1: Local Installation (Recommended)
+1. **Download** the latest plugin package from the [Releases page](https://github.com/sinberCS/switch2ai/releases)
+2. **Open** your JetBrains IDE
+3. **Go to** `Settings` (Windows/Linux) or `Preferences` (macOS)
+4. **Navigate to** `Plugins` → `⚙️` → `Install Plugin from Disk...`
+5. **Select** the downloaded `.zip` file
+6. **Click** `OK` to apply changes
+7. **Restart** your IDE when prompted
 
-### Method 2 (Not Supported Yet): Install via JetBrains Marketplace
+### Method 2: Build from Source
+```bash
+# Clone repository
+git clone https://github.com/sinberCS/switch2ai.git
+
+# Build plugin
+cd switch2ai
+./gradlew buildPlugin
+
+# Plugin package will be generated in build/distributions/ directory
+# Install the generated .zip file using Method 1
+```
+
+### Method 3: Install via JetBrains Marketplace (Coming Soon)
+- Plugin will be available on the official JetBrains Marketplace
+- One-click installation directly from IDE
+- Automatic updates
 
 ## 🚀 Usage Guide
 
