@@ -19,21 +19,24 @@ switch2ai - 一个 JetBrains IDE 插件，实现 JetBrains IDE 与各种 AI 代�
   - 完美保持编辑上下文，不中断思路
 
 - 🤖 **快速 AI 提示词输入**
-  - 支持 AI 选择的快速提示词输入对话框
+  - 支持 AI 选择的快速提示词输入弹窗
   - 支持多种 AI 代理（Cursor、Qoder、Claude code 等）
   - 智能上下文感知的提示词处理
+  - 支持快捷命令如 `$test`、`$refactor`、`$explain`
 
 - ⌨️ **便捷的快捷键支持**
   - macOS:
-    - `Option+Shift+K` - 打开 AI 提示词输入对话框
-    - `Option+Shift+P` - 在 AI 编辑器中打开整个项目
-    - `Option+Shift+O` - 在 AI 编辑器中打开当前文件
-    - `Option+Shift+C` - 执行自定义命令
+    - `Option+Shift+K` - 打开 AI 提示词输入弹窗
+    - `Option+Shift+P` - 在 Cursor 编辑器中打开项目
+    - `Option+Shift+O` - 在 Cursor 编辑器中打开当前文件
+    - `Option+Shift+U` - 在 Qoder 中打开当前文件
+    - `Option+Shift+I` - 在 Qoder 中打开项目
   - Windows:
-    - `Alt+Shift+K` - 打开 AI 提示词输入对话框
-    - `Alt+Shift+P` - 在 AI 编辑器中打开整个项目
-    - `Alt+Shift+O` - 在 AI 编辑器中打开当前文件
-    - `Alt+Shift+C` - 执行自定义命令
+    - `Alt+Shift+K` - 打开 AI 提示词输入弹窗
+    - `Alt+Shift+P` - 在 Cursor 编辑器中打开项目
+    - `Alt+Shift+O` - 在 Cursor 编辑器中打开当前文件
+    - `Alt+Shift+U` - 在 Qoder 中打开当前文件
+    - `Alt+Shift+I` - 在 Qoder 中打开项目
 
 - 🔧 **多样化的访问方式**
   - 快捷键操作
@@ -45,6 +48,7 @@ switch2ai - 一个 JetBrains IDE 插件，实现 JetBrains IDE 与各种 AI 代�
   - 变量：`$filePath`、`$projectPath`、`$line`、`$column`、`$selectedText`、`$prompt`
   - 支持快捷命令如 `$test`、`$refactor`、`$explain`
   - 完全可配置的命令模板
+  - 动态命令注册和管理
 
 ## 🛠️ 安装指南
 
@@ -70,41 +74,70 @@ switch2ai - 一个 JetBrains IDE 插件，实现 JetBrains IDE 与各种 AI 代�
   - 从下拉菜单选择 AI 代理（Cursor、Qoder、Claude code 等）
   - 智能上下文感知的提示词输入
   - 支持快捷命令如 `$test`、`$refactor`、`$explain`
+  - 弹窗在光标位置显示，快速访问
 
-#### 在 AI 编辑器中打开项目
+#### 在 Cursor 编辑器中打开项目
 - 快捷键：
   - macOS: `Option+Shift+P` 
   - Windows: `Alt+Shift+P`
-- 右键菜单：在项目视图中右键 → `在 AI 编辑器中打开项目`
-- 工具菜单：`Tools` → `在 AI 编辑器中打开项目`
+- 右键菜单：在项目视图中右键 → `在 Cursor 编辑器中打开项目`
+- 工具菜单：`Tools` → `在 Cursor 编辑器中打开项目`
 
-#### 在 AI 编辑器中打开当前文件
+#### 在 Cursor 编辑器中打开当前文件
 - 快捷键：
   - macOS: `Option+Shift+O` 
   - Windows: `Alt+Shift+O`
-- 右键菜单：在编辑器中右键 → `在 AI 编辑器中打开文件`
-- 工具菜单：`Tools` → `在 AI 编辑器中打开文件`
+- 右键菜单：在编辑器中右键 → `在 Cursor 编辑器中打开文件`
+- 工具菜单：`Tools` → `在 Cursor 编辑器中打开文件`
 
-#### 执行自定义命令
+#### 在 Qoder 中打开
 - 快捷键：
-  - macOS: `Option+Shift+C` 
-  - Windows: `Alt+Shift+C`
-- 右键菜单：在编辑器中右键 → `执行自定义命令`
-- 工具菜单：`Tools` → `执行自定义命令`
+  - macOS: `Option+Shift+U` (文件), `Option+Shift+I` (项目)
+  - Windows: `Alt+Shift+U` (文件), `Alt+Shift+I` (项目)
+- 右键菜单：在编辑器中右键 → `在 Qoder 中打开`
+- 工具菜单：`Tools` → `在 Qoder 中打开`
 
 ### 配置
 - 在 `Settings/Preferences` → `Tools` → `switch2ai` 中：
-  - 配置 AI 代理（Cursor、Qoder、Claude code 等）
-  - 设置 AI 代理可执行文件路径和显示名称
-  - 配置支持全面变量替换的自定义命令
-  - 设置快捷命令如 `$test`、`$refactor`、`$explain`
+  - **AI 配置选项卡**: 配置 AI 代理（Cursor、Qoder、Claude code 等）
+    - 设置 AI 代理名称、显示名称、命令模板和描述
+    - 配置支持变量替换的命令模板
+  - **自定义命令选项卡**: 配置支持全面变量替换的自定义命令
+    - 设置命令 ID、快捷键、命令模板和描述
+    - 支持变量：`$filePath`、`$projectPath`、`$line`、`$column`、`$selectedText`
+  - **快捷命令选项卡**: 设置快捷命令如 `$test`、`$refactor`、`$explain`
+    - 定义扩展为完整提示词的简短命令
+    - 示例：`$test` 扩展为 "请为这个函数编写单元测试..."
   - 通过 Keymap 设置自定义快捷键
+
+### 默认配置
+插件预配置了以下内容：
+- **AI 代理**: Claude Code、iflow
+- **快捷命令**: `$test`、`$refactor`、`$explain`、`$optimize`、`$debug`、`$doc`
+- **自定义命令**: 支持文件和项目的 Cursor/Qoder 跳转
 
 ### 环境要求
 - 已安装任意 AI 编辑器（Cursor、Qoder、Claude code 等）
 - 兼容所有 JetBrains IDE（2022.3 及以上版本）
+- 启用 Terminal 插件以支持集成终端执行
 
 ## 🧑‍💻 开发者指南
+
+### 项目结构
+```
+src/main/kotlin/com/github/switch2ai/
+├── actions/
+│   ├── processor/          # 命令执行逻辑
+│   └── registry/           # 动态动作注册
+├── config/
+│   ├── model/              # 配置数据模型
+│   └── settings/           # 设置 UI 和状态管理
+├── core/
+│   └── startup/            # 项目启动初始化
+├── ui/
+│   └── dialog/             # 用户界面组件
+└── utils/                  # 工具类
+```
 
 ### 项目构建
 ```bash
@@ -116,6 +149,13 @@ cd switch2ai
 ./gradlew buildPlugin  
 # 生成插件包在 build/distributions/ 目录下
 ```
+
+### 核心组件
+- **DynamicActionRegistry**: 管理自定义命令和动作的动态注册
+- **CommandProcessor**: 处理命令执行和 AI 提示词处理
+- **AppSettingsConfigurable**: 提供全面的配置界面
+- **PromptInputPopup**: 光标位置的快速提示词输入弹窗
+- **ShortcutCommandReplacer**: 处理快捷命令扩展
 
 ### 贡献代码
 1. Fork 本仓库
@@ -137,3 +177,12 @@ cd switch2ai
 
 ### 4. 如何配置自定义命令？
 进入 `Settings` → `Tools` → `switch2ai` 并配置支持变量替换的自定义命令
+
+### 5. 快捷命令是如何工作的？
+快捷命令如 `$test` 在 AI 提示词输入中会自动扩展为完整的提示词
+
+### 6. 可以添加自己的 AI 代理吗？
+是的，您可以在 AI 配置选项卡中添加自定义 AI 代理，支持自定义命令模板和变量替换
+
+### 7. 插件如何处理光标定位？
+插件自动捕获当前文件路径、行号和列号，然后将这些信息传递给 AI 编辑器以实现精确定位

@@ -25,14 +25,14 @@ switch2ai - A JetBrains IDE plugin enabling seamless collaboration between JetBr
 - ⌨️ **Convenient Shortcut Support**
     - macOS:
         - `Option+Shift+K` - Open AI prompt input popup
-        - `Option+Shift+P` - Open project in AI Editor
-        - `Option+Shift+O` - Open current file in AI Editor
+        - `Option+Shift+P` - Open project in Cursor Editor
+        - `Option+Shift+O` - Open current file in Cursor Editor
         - `Option+Shift+U` - Open current file in Qoder
         - `Option+Shift+I` - Open project in Qoder
     - Windows:
         - `Alt+Shift+K` - Open AI prompt input popup
-        - `Alt+Shift+P` - Open project in AI Editor
-        - `Alt+Shift+O` - Open current file in AI Editor
+        - `Option+Shift+P` - Open project in Cursor Editor
+        - `Option+Shift+O` - Open current file in Cursor Editor
         - `Alt+Shift+U` - Open current file in Qoder
         - `Alt+Shift+I` - Open project in Qoder
 
