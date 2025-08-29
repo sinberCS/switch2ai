@@ -191,12 +191,12 @@ sequenceDiagram
 aiList: {
   cursor: { name: "cursor", shortcut: "option+shift+1" }
   qoder: { name: "qoder", shortcut: "option+shift+2" }
-  claudCode: { name: "claudCode", shortcut: "option+shift+3" }
+  claudeCode: { name: "claudeCode", shortcut: "option+shift+3" }
 }
 actions: {
-  switch2ai: { commands: { cursor: "cmd1", qoder: "cmd2", claudCode: "cmd3" } }
-  openFileInCursor: { commands: { cursor: "cmd4", qoder: "", claudCode: "" } }
-  openProjectInCursor: { commands: { cursor: "cmd5", qoder: "", claudCode: "" } }
+  switch2ai: { commands: { cursor: "cmd1", qoder: "cmd2", claudeCode: "cmd3" } }
+  openFileInCursor: { commands: { cursor: "cmd4", qoder: "", claudeCode: "" } }
+  openProjectInCursor: { commands: { cursor: "cmd5", qoder: "", claudeCode: "" } }
 }
 ```
 
@@ -219,8 +219,8 @@ promptConfiguration: {
       enabled: true
       isDefault: true
     }
-    "claudCode": {
-      name: "claudCode"
+    "claudeCode": {
+      name: "claudeCode"
       displayName: "Claude Code"
       command: "claude_cli --prompt '${prompt}' --context '${filePath}:${line}:${column}'"
       enabled: true
@@ -329,7 +329,7 @@ graph TB
 #### 自定义AI配置功能设计
 
 **灵活AI管理**：
-- **默认AI**：系统预设3个AI（cursor、qoder、claudCode）
+- **默认AI**：系统预设3个AI（cursor、qoder、claudeCode）
 - **自定义AI**：用户可以添加任意AI（如ChatGPT、Copilot等）
 - **命令模板**：每个AI都有自定义的命令模板
 - **启用状态**：可以灵活启用/禁用某个AI
@@ -639,8 +639,8 @@ data class PromptConfiguration(
                 isDefault = true,
                 description = "Qoder AI编辑器的AI助手"
             ),
-            "claudCode" to AIConfig(
-                name = "claudCode",
+            "claudeCode" to AIConfig(
+                name = "claudeCode",
                 displayName = "Claude Code",
                 command = "claude_cli --prompt '\${prompt}' --context '\${filePath}:\${line}:\${column}'",
                 enabled = true,

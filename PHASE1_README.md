@@ -6,7 +6,7 @@
 ## 功能特性
 
 ### 1. AI状态管理
-- 支持动态配置的AI类型（默认：cursor、qoder、claudCode）
+- 支持动态配置的AI类型（默认：cursor、qoder、claudeCode）
 - 可扩展支持更多AI类型
 - 状态持久化保存
 - 状态变化监听机制
@@ -106,7 +106,7 @@ src/main/kotlin/com/github/switch2ai/
 ### 支持的AI类型
 - `cursor`: Cursor编辑器（默认快捷键：option+shift+1）
 - `qoder`: Qoder编辑器（默认快捷键：option+shift+2）
-- `claudCode`: Claude编辑器（默认快捷键：option+shift+3）
+- `claudeCode`: Claude编辑器（默认快捷键：option+shift+3）
 
 ### 默认设置
 - 默认AI: cursor

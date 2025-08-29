@@ -15,7 +15,7 @@
   - 快捷命令
 
 ### 2. 默认配置验证
-- 检查是否有预设的AI配置 (cursor, qoder, claudCode)
+- 检查是否有预设的AI配置 (cursor, qoder, claudeCode)
 - 检查是否有默认的4个跳转命令
 - 检查是否有默认的快捷命令 ($test, $refactor等)
 

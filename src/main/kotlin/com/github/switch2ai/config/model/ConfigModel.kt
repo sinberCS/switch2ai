@@ -36,7 +36,7 @@ data class CustomCommand(
  * 提示词AI配置
  */
 data class PromptAIConfiguration(
-        var currentAI: String = "cursor",                    // 当前选中的AI
+        var currentAI: String = "claudeCode",                    // 当前选中的AI
         var customAIs: MutableMap<String, AIConfig> = mutableMapOf(),  // 自定义AI配置
         var shortcutCommands: MutableMap<String, String> = mutableMapOf() // 快捷命令映射
 ) {
@@ -94,8 +94,8 @@ data class PluginConfig(
         fun getDefaultConfig(): PluginConfig {
             // 默认AI配置
             val defaultAIs = mutableMapOf(
-                    "claudCode" to AIConfig(
-                            name = "claudCode",
+                    "claudeCode" to AIConfig(
+                            name = "claudeCode",
                             displayName = "Claude Code",
                             command = "claude \'\${prompt}' 文件位置仅供参考 \${filePath}:\${line}:\${column}\'",
                             description = "Claude Code AI"

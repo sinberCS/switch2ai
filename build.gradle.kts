@@ -15,12 +15,16 @@ repositories {
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-    version.set("2023.1")
+    version.set("2023.3.6")
     type.set("IC") // Target IDE Platform
     pluginName.set("switch2ai")
     updateSinceUntilBuild.set(true)
     sameSinceUntilBuild.set(false)
-    plugins.set(listOf(/* Plugin Dependencies */))
+    plugins.set(listOf(
+            "com.intellij.java",
+            "org.jetbrains.plugins.terminal"
+
+    ))
 }
 
 tasks {

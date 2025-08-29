@@ -143,7 +143,7 @@
 > PromptAIMode的ai以及对应的拼接命令是需要可以自定义的
 
 **实现状态**: ✅ 完全实现
-- 3个默认AI配置 (cursor, qoder, claudCode)
+- 3个默认AI配置 (cursor, qoder, claudeCode)
 - 支持添加任意自定义AI
 - 每个AI都有独立的命令模板
 - 启用/禁用状态管理

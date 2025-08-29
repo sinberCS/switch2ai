@@ -4,13 +4,13 @@
 # 2. 核心项目需求 
 ## 2.1 核心功能
 1. 能够通过yaml配置文件(或者其他对于插件方便的方式)指定AI + 命令，会主要定义下面两个信息
-   1. AI信息，默认设置为 cursor、qoder、claudCode
+   1. AI信息，默认设置为 cursor、qoder、claudeCode
    2. 快捷键对应，每一条信息包含 名称、描述、快捷键 及 每个AI对应的命令
 ```yaml
 aiList:
    cursor: "option+shift+1"
    qoder: "option+shift+2"
-   claudCode: "option+shift+3"
+   claudeCode: "option+shift+3"
 
 actions:
     switch2ai:
@@ -18,12 +18,12 @@ actions:
         keyMap: "option+shift+o"
         cursor: "open -a cursor cursor://file${filePath}:${line}:${column}"
         qoder: "open -a qoder qoder://file${filePath}:${line}:${column}"
-        claudCode: ""
+        claudeCode: ""
     generateUnitTest:
         description: "generate unit test (only generate selection part if have)"
         keyMap: "option+shift+t"
         cursor: ""
-        claudCode: ""
+        claudeCode: ""
 ```
 2. 当前使用的AI名字显示在idea下面框中 (和git显示所在分支那显示在一块)，能够通过下面的框选择、切换AI。也能够通过option+shift+1(或者234)切换到指定的ai
 3. 通过快捷键，或者右键能够执行配置文件中的命令
