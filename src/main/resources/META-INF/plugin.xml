@@ -14,102 +14,150 @@
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-            <p>switch2ai is a JetBrains IDE plugin that enables seamless switching between IDE and Any Agent Editor while maintaining precise cursor position.</p>
+            <p>switch2ai is a JetBrains IDE plugin that enables seamless collaboration between JetBrains IDEs and various AI agents (Cursor, Qoder, Claude code etc.). Key features include instant switching between different AI editors, rapid AI prompt input with AI selection, and fully configurable custom commands with variable support for enhanced AI collaboration workflow.</p>
 
     <h2>Key Features</h2>
     <ul>
-        <li>Open files in Cursor with one click</li>
+        <li>Instant AI Editor Switching</li>
         <li>Maintain exact cursor position (line and column)</li>
-        <li>Support opening entire projects in Cursor</li>
+        <li>Support multiple AI agents: Cursor, Qoder, Claude Code, and more</li>
+        <li>Rapid AI prompt input with AI selection</li>
+        <li>Support for shortcut commands like $test, $refactor, $explain</li>
         <li>Convenient shortcuts (customizable):
             <ul>
-                <li>Alt+Shift+O - Open current file</li>
-                <li>Alt+Shift+P - Open current project</li>
+                <li>Alt+Shift+K - Open AI prompt input popup</li>
+                <li>Alt+Shift+P - Open project in Cursor Editor</li>
+                <li>Alt+Shift+O - Open current file in Cursor Editor</li>
+                <li>Alt+Shift+U - Open current file in Qoder</li>
+                <li>Alt+Shift+I - Open project in Qoder</li>
             </ul>
         </li>
         <li>Multiple access methods: shortcuts, context menu, tools menu</li>
+        <li>Fully configurable custom commands with variable support</li>
+        <li>Dynamic command registration and management</li>
     </ul>
 
     <h2>Usage</h2>
     <ul>
-        <li>Open current file:
+        <li>AI Prompt Input:
+            <ul>
+                <li>Press Alt+Shift+K</li>
+                <li>Select AI agent from dropdown</li>
+                <li>Input prompts with shortcut command support</li>
+            </ul>
+        </li>
+        <li>Open current file in Cursor:
             <ul>
                 <li>Press Alt+Shift+O</li>
                 <li>Right-click in editor → Open File In Cursor</li>
                 <li>Tools menu → Open File In Cursor</li>
             </ul>
         </li>
-        <li>Open project:
+        <li>Open project in Cursor:
             <ul>
                 <li>Press Alt+Shift+P</li>
                 <li>Right-click in project view → Open Project In Cursor</li>
                 <li>Tools menu → Open Project In Cursor</li>
             </ul>
         </li>
+        <li>Open in Qoder:
+            <ul>
+                <li>Press Alt+Shift+U (file) or Alt+Shift+I (project)</li>
+                <li>Right-click in editor → Open In Qoder</li>
+                <li>Tools menu → Open In Qoder</li>
+            </ul>
+        </li>
     </ul>
 
     <h2>Configuration</h2>
     <ul>
-                        <li>Go to Settings/Preferences → Tools → switch2ai</li>
-        <li>Set Cursor executable path (default is "cursor")</li>
+        <li>Go to Settings/Preferences → Tools → switch2ai</li>
+        <li>AI Configuration tab: Configure AI agents and command templates</li>
+        <li>Custom Commands tab: Configure custom commands with variable support</li>
+        <li>Shortcut Commands tab: Set up shortcut commands like $test, $refactor</li>
         <li>Customize shortcuts in Keymap settings</li>
     </ul>
 
     <h2>Requirements</h2>
     <ul>
-        <li>Cursor Editor installed (<a href="https://cursor.sh">https://cursor.sh</a>)</li>
+        <li>Any AI editor installed (Cursor, Qoder, Claude code, etc.)</li>
         <li>Compatible with all JetBrains IDEs</li>
         <li>Supported IDE versions: 2022.3 and above</li>
+        <li>Terminal plugin enabled for integrated terminal execution</li>
     </ul>
 
     <hr/>
 
-            <p>switch2ai 是一个 JetBrains IDE 插件，可以让你在 IDE 和任意 Agent 编辑器之间无缝切换，并保持精确的光标位置。</p>
+            <p>switch2ai 是一个 JetBrains IDE 插件，实现 JetBrains IDE 与各种 AI 代理（Cursor、Qoder、Claude code 等）之间的无缝协作。主要功能包括在不同 AI 编辑器之间即时切换、支持 AI 选择的快速 AI 提示词输入，以及支持变量的完全可配置自定义命令，为增强的 AI 协作工作流程提供支持。</p>
 
     <h2>主要特性</h2>
     <ul>
-        <li>一键在 Cursor 中打开文件</li>
+        <li>即时 AI 编辑器切换</li>
         <li>精确保持光标位置（行号和列号）</li>
-        <li>支持在 Cursor 中打开整个项目</li>
+        <li>支持多种 AI 代理：Cursor、Qoder、Claude Code 等</li>
+        <li>支持 AI 选择的快速提示词输入弹窗</li>
+        <li>支持快捷命令如 $test、$refactor、$explain</li>
         <li>便捷的快捷键（可自定义）:
             <ul>
-                <li>Alt+Shift+O - 打开当前文件</li>
-                <li>Alt+Shift+P - 打开当前项目</li>
+                <li>Alt+Shift+K - 打开 AI 提示词输入弹窗</li>
+                <li>Alt+Shift+P - 在 Cursor 编辑器中打开项目</li>
+                <li>Alt+Shift+O - 在 Cursor 编辑器中打开当前文件</li>
+                <li>Alt+Shift+U - 在 Qoder 中打开当前文件</li>
+                <li>Alt+Shift+I - 在 Qoder 中打开项目</li>
             </ul>
         </li>
         <li>多种访问方式：快捷键、右键菜单、工具菜单</li>
+        <li>支持变量的完全可配置自定义命令</li>
+        <li>动态命令注册和管理</li>
     </ul>
 
     <h2>使用方法</h2>
     <ul>
-        <li>打开当前文件:
+        <li>AI 提示词输入:
             <ul>
-                <li>按下 Alt+Shift+O</li>
-                <li>在编辑器中右键 → Open File In Cursor</li>
-                <li>工具菜单 → Open File In Cursor</li>
+                <li>按下 Alt+Shift+K</li>
+                <li>从下拉菜单选择 AI 代理</li>
+                <li>输入提示词，支持快捷命令</li>
             </ul>
         </li>
-        <li>打开项目:
+        <li>在 Cursor 编辑器中打开当前文件:
+            <ul>
+                <li>按下 Alt+Shift+O</li>
+                <li>在编辑器中右键 → 在 Cursor 编辑器中打开文件</li>
+                <li>工具菜单 → 在 Cursor 编辑器中打开文件</li>
+            </ul>
+        </li>
+        <li>在 Cursor 编辑器中打开项目:
             <ul>
                 <li>按下 Alt+Shift+P</li>
-                <li>在项目视图中右键 → Open Project In Cursor</li>
-                <li>工具菜单 → Open Project In Cursor</li>
+                <li>在项目视图中右键 → 在 Cursor 编辑器中打开项目</li>
+                <li>工具菜单 → 在 Cursor 编辑器中打开项目</li>
+            </ul>
+        </li>
+        <li>在 Qoder 中打开:
+            <ul>
+                <li>按下 Alt+Shift+U (文件) 或 Alt+Shift+I (项目)</li>
+                <li>在编辑器中右键 → 在 Qoder 中打开</li>
+                <li>工具菜单 → 在 Qoder 中打开</li>
             </ul>
         </li>
     </ul>
 
     <h2>配置说明</h2>
     <ul>
-                        <li>进入 Settings/Preferences → Tools → switch2ai</li>
-        <li>设置 Cursor 可执行文件路径（默认为 "cursor"）</li>
+        <li>进入 Settings/Preferences → Tools → switch2ai</li>
+        <li>AI 配置选项卡：配置 AI 代理和命令模板</li>
+        <li>自定义命令选项卡：配置支持变量替换的自定义命令</li>
+        <li>快捷命令选项卡：设置快捷命令如 $test、$refactor</li>
         <li>通过 Keymap 设置自定义快捷键</li>
     </ul>
 
     <h2>系统要求</h2>
     <ul>
-        <li>已安装 Cursor Editor (<a href="https://cursor.sh">https://cursor.sh</a>)</li>
+        <li>已安装任意 AI 编辑器（Cursor、Qoder、Claude code 等）</li>
         <li>兼容所有 JetBrains IDE</li>
         <li>支持的 IDE 版本：2022.3 及以上</li>
+        <li>启用 Terminal 插件以支持集成终端执行</li>
     </ul>
     ]]></description>
 
@@ -144,68 +192,24 @@
     <change-notes><![CDATA[
         <h3>0.1.0</h3>
         <ul>
-            <li>✨ Add custom command execution feature with variable support</li>
-            <li>🔧 Support custom shortcuts for custom commands</li>
-            <li>📝 Add configuration for custom commands and shortcuts</li>
-            <li>🔍 Support variable replacement: $filePath, $line, $column</li>
+            <li>🚀 Support multiple AI agents (Cursor, Qoder, Claude Code)</li>
+            <li>🤖 Implement AI prompt input popup with AI selection</li>
+            <li>⚡  shortcut command support ($test, $refactor, $explain, etc.)</li>
+            <li>🔧 Dynamic command registration and management system</li>
+            <li>📝 Comprehensive configuration interface with three tabs</li>
+            <li>🔍 Enhanced variable support: $filePath, $projectPath, $line, $column, $selectedText, $prompt</li>
         </ul>
 
         <hr/>
 
         <ul>
-            <li>✨ 新增自定义命令执行功能，支持变量替换</li>
-            <li>🔧 支持自定义命令的快捷键配置</li>
-            <li>📝 新增自定义命令和快捷键的配置界面</li>
-            <li>🔍 支持变量替换：$filePath、$line、$column</li>
+            <li>🚀 多 AI 代理支持（Cursor、Qoder、Claude Code）</li>
+            <li>🤖 实现支持 AI 选择的提示词输入弹窗</li>
+            <li>⚡  快捷命令支持（$test、$refactor、$explain 等）</li>
+            <li>🔧 动态命令注册和管理系统</li>
+            <li>📝 全面的配置界面，包含三个选项卡</li>
+            <li>🔍 增强的变量支持：$filePath、$projectPath、$line、$column、$selectedText、$prompt</li>
         </ul>
 
-        <h3>1.0.3</h3>
-        <ul>
-            <li>⚡️ Update action update thread to background thread for better performance</li>
-        </ul>
-
-        <hr/>
-
-        <ul>
-            <li>⚡️ 将动作更新线程改为后台线程以提升性能</li>
-        </ul>
-
-        <h3>1.0.2</h3>
-        <ul>
-            <li>⚡️ Support JetBrains IDEs from version 2022.3</li>
-            <li>🐛 Fix DirectoryChooserPopupMenu registration issue</li>
-        </ul>
-
-        <hr/>
-
-        <ul>
-            <li>⚡️ 支持 JetBrains IDEs 2022.3 开始以及以后的版本</li>
-            <li>🐛 修复 DirectoryChooserPopupMenu 注册问题</li>
-        </ul>
-        <h3>1.0.1</h3>
-        <ul>
-            <li>🐛 Fix the issue of not being able to activate the Cursor window on Windows</li>
-        </ul>
-
-        <hr/>
-        
-        <ul>
-            <li>🐛 修复在 Windows 上无法激活 Cursor 窗口的问题</li>
-        </ul>
-        
-        <h3>1.0.0</h3>
-        <ul>
-            <li>✨ Support opening files and projects in Cursor</li>
-            <li>🔧 Configure Cursor executable path</li>
-            <li>⌨️ Access via shortcuts, context menu and toolbar</li>
-        </ul>
-
-        <hr/>
-
-        <ul>
-            <li>✨ 支持在 Cursor 中打开文件和项目</li>
-            <li>🔧 支持配置 Cursor 可执行文件路径</li>
-            <li>⌨️ 支持快捷键、右键菜单和工具栏访问</li>
-        </ul>
     ]]></change-notes>
 </idea-plugin>
