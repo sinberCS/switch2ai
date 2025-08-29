@@ -51,8 +51,8 @@ switch2ai - A JetBrains IDE plugin enabling seamless collaboration between JetBr
 ## 📦 Download Plugin
 
 ### Latest Release
-- **Download**: [switch2ai-0.1.0.zip](https://github.com/sinberCS/switch2ai/releases/latest/download/switch2ai-0.1.0.zip)
-- **Version**: 0.1.0
+- **Download**: [switch2ai-0.1.1.zip](https://github.com/sinberCS/switch2ai/releases/latest/download/switch2ai-0.1.1.zip)
+- **Version**: 0.1.1
 - **Release Date**: Latest
 - **Compatibility**: JetBrains IDEs 2022.3+
 

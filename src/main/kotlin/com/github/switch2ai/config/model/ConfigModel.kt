@@ -97,13 +97,13 @@ data class PluginConfig(
                     "claudeCode" to AIConfig(
                             name = "claudeCode",
                             displayName = "Claude Code",
-                            command = "claude \'\${prompt}' File location for reference only \${filePath}:\${line}:\${column}\'",
+                            command = "claude \'\${prompt} File location for reference only \${filePath}:\${line}:\${column}\'",
                             description = "Claude Code AI"
                     ),
                     "iflow" to AIConfig(
                             name = "iflow",
                             displayName = "iflow",
-                            command = "iflow \'\${prompt}' File location for reference only \${filePath}:\${line}:\${column}\'",
+                            command = "iflow \'\${prompt} File location for reference only \${filePath}:\${line}:\${column}\'",
                             description = "Claude Code AI"
                     )
             )

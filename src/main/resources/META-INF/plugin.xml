@@ -190,7 +190,7 @@
     </actions>
 
     <change-notes><![CDATA[
-        <h3>0.1.0</h3>
+        <h3>0.1.1</h3>
         <ul>
             <li>🚀 Support multiple AI agents (Cursor, Qoder, Claude Code)</li>
             <li>🤖 Implement AI prompt input popup with AI selection</li>
