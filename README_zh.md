@@ -54,6 +54,7 @@ switch2ai - 一个 JetBrains IDE 插件，实现 JetBrains IDE 与各种 AI 代�
 
 ### 最新版本
 - **下载**: [switch2ai-0.1.1.zip](https://github.com/sinberCS/switch2ai/releases/latest/download/switch2ai-0.1.1.zip)
+- **直接下载**: [switch2ai-0.1.1.zip](./images/switch2ai-0.1.1.zip)
 - **版本**: 0.1.1
 - **发布日期**: 最新
 - **兼容性**: JetBrains IDEs 2022.3+
