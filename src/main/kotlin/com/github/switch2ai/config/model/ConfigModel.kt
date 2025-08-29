@@ -97,13 +97,13 @@ data class PluginConfig(
                     "claudCode" to AIConfig(
                             name = "claudCode",
                             displayName = "Claude Code",
-                            command = "claude \"\${prompt}' 文件位置仅供参考 '\${filePath}:\${line}:\${column}\"",
+                            command = "claude \'\${prompt}' 文件位置仅供参考 \${filePath}:\${line}:\${column}\'",
                             description = "Claude Code AI"
                     ),
                     "iflow" to AIConfig(
                             name = "iflow",
                             displayName = "iflow",
-                            command = "iflow \"\${prompt}' 文件位置仅供参考 '\${filePath}:\${line}:\${column}\"",
+                            command = "iflow \'\${prompt}' 文件位置仅供参考 \${filePath}:\${line}:\${column}\'",
                             description = "Claude Code AI"
                     )
             )
