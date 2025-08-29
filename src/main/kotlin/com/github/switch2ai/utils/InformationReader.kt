@@ -7,14 +7,14 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.diagnostic.Logger
 
 /**
- * 信息读取模块
- * 负责在执行命令前获取执行命令所需的内容
+ * Information Reader Module
+ * Responsible for obtaining the content required to execute commands before execution
  */
 class InformationReader {
     private val logger = Logger.getInstance(InformationReader::class.java)
     
     /**
-     * 执行命令所需的信息
+     * Information required to execute commands
      */
     data class CommandContext(
         val filePath: String,
@@ -25,7 +25,7 @@ class InformationReader {
     )
     
     /**
-     * 从ActionEvent中读取命令执行上下文信息
+     * Read command execution context information from ActionEvent
      */
     fun readCommandContext(event: AnActionEvent): CommandContext? {
         try {
@@ -33,17 +33,17 @@ class InformationReader {
             val editor: Editor? = event.getData(CommonDataKeys.EDITOR)
             val project = event.project
             
-            // 获取文件路径
+            // Get file path
             val filePath = virtualFile.path
             
-            // 获取光标位置
+            // Get cursor position
             val line = editor?.caretModel?.logicalPosition?.line?.plus(1) ?: 1
             val column = editor?.caretModel?.logicalPosition?.column?.plus(1) ?: 1
             
-            // 获取选中的文本
+            // Get selected text
             val selection = editor?.selectionModel?.selectedText
             
-            // 获取项目路径
+            // Get project path
             val projectPath = project?.basePath
             
             return CommandContext(
@@ -60,7 +60,7 @@ class InformationReader {
     }
     
     /**
-     * 替换命令字符串中的变量
+     * Replace variables in command strings
      */
     fun replaceVariables(command: String, context: CommandContext): String {
         return command
@@ -72,7 +72,7 @@ class InformationReader {
     }
     
     /**
-     * 验证命令上下文是否有效
+     * Validate if command context is valid
      */
     fun isValidContext(context: CommandContext?): Boolean {
         return context != null && 

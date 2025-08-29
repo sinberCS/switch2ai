@@ -7,8 +7,8 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.startup.ProjectActivity
 
 /**
- * 新的项目启动监听器
- * 负责在项目启动时初始化新的配置系统
+ * New Project Startup Listener
+ * Responsible for initializing the new configuration system when the project starts
  */
 class ProjectStartupListener : ProjectActivity {
     
@@ -16,28 +16,28 @@ class ProjectStartupListener : ProjectActivity {
     
     override suspend fun execute(project: Project) {
         try {
-            logger.info("新项目启动监听器开始执行: ${project.name}")
+            logger.info("New project startup listener execution started: ${project.name}")
             
-            // 获取配置状态管理器
+            // Get configuration state manager
             val settingsState = AppSettingsState.getInstance()
             val config = settingsState.getCurrentConfig()
             
-            // 获取动作注册器
+            // Get action registry
             val actionRegistry = DynamicActionRegistry.getInstance(project)
             
-            // 注册所有自定义命令和提示词动作
+            // Register all custom commands and prompt actions
             actionRegistry.registerAllCustomCommands(project, config)
             
-            // 添加配置变更监听器
+            // Add configuration change listener
             settingsState.addConfigChangeListener { newConfig ->
-                // 配置变更时重新注册动作
+                // Re-register actions when configuration changes
                 actionRegistry.registerAllCustomCommands(project, newConfig)
             }
             
-            logger.info("新项目启动初始化完成")
+            logger.info("New project startup initialization completed")
             
         } catch (e: Exception) {
-            logger.error("新项目启动初始化失败: ${e.message}", e)
+            logger.error("New project startup initialization failed: ${e.message}", e)
         }
     }
 }

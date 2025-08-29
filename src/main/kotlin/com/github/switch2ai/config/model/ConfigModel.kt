@@ -1,18 +1,18 @@
 package com.github.switch2ai.config.model
 
 /**
- * AI配置数据类
+ * AI Configuration Data Class
  */
 data class AIConfig(
-        var name: String = "",               // AI标识符（唯一）
-        var displayName: String = "",        // 显示名称
-        var command: String = "",            // 命令模板
-        var description: String = ""         // 描述信息
+        var name: String = "",               // AI identifier (unique)
+        var displayName: String = "",        // Display name
+        var command: String = "",            // Command template
+        var description: String = ""         // Description
 )
 
 
 /**
- * 文件上下文信息
+ * File Context Information
  */
 data class FileContext(
         var filePath: String = "",
@@ -23,39 +23,39 @@ data class FileContext(
 )
 
 /**
- * 统一的自定义命令配置
+ * Unified Custom Command Configuration
  */
 data class CustomCommand(
-        var id: String = "",                 // 唯一标识符
-        var shortcut: String = "",           // 快捷键
-        var command: String = "",            // 命令模板
-        var description: String = ""         // 描述信息
+        var id: String = "",                 // Unique identifier
+        var shortcut: String = "",           // Shortcut
+        var command: String = "",            // Command template
+        var description: String = ""         // Description
 )
 
 /**
- * 提示词AI配置
+ * Prompt AI Configuration
  */
 data class PromptAIConfiguration(
-        var currentAI: String = "claudeCode",                    // 当前选中的AI
-        var customAIs: MutableMap<String, AIConfig> = mutableMapOf(),  // 自定义AI配置
-        var shortcutCommands: MutableMap<String, String> = mutableMapOf() // 快捷命令映射
+        var currentAI: String = "claudeCode",                    // Currently selected AI
+        var customAIs: MutableMap<String, AIConfig> = mutableMapOf(),  // Custom AI configuration
+        var shortcutCommands: MutableMap<String, String> = mutableMapOf() // Shortcut command mapping
 ) {
     /**
-     * 获取启用的AI列表
+     * Get enabled AI list
      */
     fun getAIs(): List<AIConfig> {
         return customAIs.values.toList()
     }
 
     /**
-     * 获取当前AI配置
+     * Get current AI configuration
      */
     fun getCurrentAI(): AIConfig? {
         return customAIs[currentAI]
     }
 
     /**
-     * 添加自定义AI
+     * Add custom AI
      */
     fun addCustomAI(ai: AIConfig): PromptAIConfiguration {
         customAIs[ai.name] = ai
@@ -63,7 +63,7 @@ data class PromptAIConfiguration(
     }
 
     /**
-     * 移除自定义AI
+     * Remove custom AI
      */
     fun removeCustomAI(name: String): PromptAIConfiguration {
         customAIs.remove(name)
@@ -71,7 +71,7 @@ data class PromptAIConfiguration(
     }
 
     /**
-     * 更新AI命令
+     * Update AI command
      */
     fun updateAICommand(name: String, command: String): PromptAIConfiguration {
         val ai = customAIs[name] ?: return this
@@ -81,68 +81,68 @@ data class PromptAIConfiguration(
 }
 
 /**
- * 新的插件配置数据结构
+ * New Plugin Configuration Data Structure
  */
 data class PluginConfig(
-        var promptConfiguration: PromptAIConfiguration = PromptAIConfiguration(),      // 提示词AI配置
-        var customCommands: MutableMap<String, CustomCommand> = mutableMapOf()        // 自定义命令配置
+        var promptConfiguration: PromptAIConfiguration = PromptAIConfiguration(),      // Prompt AI configuration
+        var customCommands: MutableMap<String, CustomCommand> = mutableMapOf()        // Custom command configuration
 ) {
     companion object {
         /**
-         * 获取默认配置
+         * Get default configuration
          */
         fun getDefaultConfig(): PluginConfig {
-            // 默认AI配置
+            // Default AI configuration
             val defaultAIs = mutableMapOf(
                     "claudeCode" to AIConfig(
                             name = "claudeCode",
                             displayName = "Claude Code",
-                            command = "claude \'\${prompt}' 文件位置仅供参考 \${filePath}:\${line}:\${column}\'",
+                            command = "claude \'\${prompt}' File location for reference only \${filePath}:\${line}:\${column}\'",
                             description = "Claude Code AI"
                     ),
                     "iflow" to AIConfig(
                             name = "iflow",
                             displayName = "iflow",
-                            command = "iflow \'\${prompt}' 文件位置仅供参考 \${filePath}:\${line}:\${column}\'",
+                            command = "iflow \'\${prompt}' File location for reference only \${filePath}:\${line}:\${column}\'",
                             description = "Claude Code AI"
                     )
             )
 
-            // 默认快捷命令
+            // Default shortcut commands
             val defaultShortcutCommands = mutableMapOf(
-                    "\$test" to "请为这个函数编写单元测试，确保覆盖边界条件和异常情况",
-                    "\$refactor" to "请重构这段代码，提高可读性和性能，保持原有功能不变",
-                    "\$explain" to "请详细解释这段代码的功能和实现原理",
-                    "\$optimize" to "请优化这段代码的性能和内存使用",
-                    "\$debug" to "请帮我分析这段代码可能存在的bug和问题",
-                    "\$doc" to "请为这段代码生成详细的文档注释"
+                    "\$test" to "Please write unit tests for this function, ensuring coverage of edge cases and exception scenarios",
+                    "\$refactor" to "Please refactor this code to improve readability and performance while maintaining original functionality",
+                    "\$explain" to "Please explain in detail the functionality and implementation principles of this code",
+                    "\$optimize" to "Please optimize the performance and memory usage of this code",
+                    "\$debug" to "Please help me analyze potential bugs and issues in this code",
+                    "\$doc" to "Please generate detailed documentation comments for this code"
             )
 
-            // 默认自定义命令（包含4个跳转命令）
+            // Default custom commands (including 4 jump commands)
             val defaultCustomCommands = mutableMapOf(
                     "jumpToCursorFile" to CustomCommand(
                             id = "jumpToCursorFile",
                             shortcut = "Alt+Shift+O",
                             command = "open -a cursor cursor://file\${filePath}:\${line}:\${column}",
-                            description = "在Cursor中打开当前文件并定位"
+                            description = "Open current file in Cursor and locate position"
                     ),
                     "jumpToCursorProject" to CustomCommand(
                             id = "jumpToCursorProject",
                             shortcut = "Alt+Shift+P",
                             command = "open -a cursor \${projectPath}",
-                            description = "在Cursor中打开当前项目"
+                            description = "Open current project in Cursor"
                     ),
                     "jumpToQoderFile" to CustomCommand(
                             id = "jumpToQoderFile",
                             shortcut = "Alt+Shift+U",
                             command = "open -a qoder qoder://file\${filePath}:\${line}:\${column}",
-                            description = "在Qoder中打开当前文件并定位"
+                            description = "Open current file in Qoder and locate position"
                     ),
                     "jumpToQoderProject" to CustomCommand(
                             id = "jumpToQoderProject",
                             shortcut = "Alt+Shift+I",
                             command = "open -a qoder \${projectPath}",
-                            description = "在Qoder中打开当前项目"
+                            description = "Open current project in Qoder"
                     )
             )
 

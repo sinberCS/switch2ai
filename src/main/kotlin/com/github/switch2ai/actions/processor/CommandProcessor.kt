@@ -11,29 +11,29 @@ import com.intellij.openapi.ui.Messages
 import org.jetbrains.plugins.terminal.TerminalToolWindowManager
 
 /**
- * 新的命令处理器
- * 负责处理自定义命令执行和提示词命令
+ * New Command Processor
+ * Responsible for handling custom command execution and prompt commands
  */
 class CommandProcessor {
 
     private val logger = Logger.getInstance(CommandProcessor::class.java)
 
     /**
-     * 执行自定义命令
+     * Execute custom command
      */
     fun executeCustomCommand(command: CustomCommand, context: FileContext, project: Project) {
         try {
             val expandedCommand = expandCommandTemplate(command.command, context)
-            logger.info("执行自定义命令: ${command.id}, 展开后命令: $expandedCommand")
-            executeCommandBackground(expandedCommand, project, "执行命令: ${command.id}")
+            logger.info("Executing custom command: ${command.id}, expanded command: $expandedCommand")
+            executeCommandBackground(expandedCommand, project, "Execute command: ${command.id}")
         } catch (e: Exception) {
-            logger.error("执行自定义命令失败: ${command.id}", e)
-            Messages.showErrorDialog(project, "执行命令失败: ${e.message}", "命令执行错误")
+            logger.error("Failed to execute custom command: ${command.id}", e)
+            Messages.showErrorDialog(project, "Command execution failed: ${e.message}", "Command Execution Error")
         }
     }
 
     /**
-     * 处理提示词命令
+     * Handle prompt command
      */
     fun handlePromptCommand(promptConfig: PromptAIConfiguration, project: Project) {
         try {
@@ -46,13 +46,13 @@ class CommandProcessor {
                 }
             }
         } catch (e: Exception) {
-            logger.error("处理提示词命令失败", e)
-            Messages.showErrorDialog(project, "处理提示词命令失败: ${e.message}", "提示词处理错误")
+            logger.error("Failed to handle prompt command", e)
+            Messages.showErrorDialog(project, "Failed to handle prompt command: ${e.message}", "Prompt Processing Error")
         }
     }
 
     /**
-     * 执行提示词命令
+     * Execute prompt command
      */
     private fun executePromptCommand(
             aiName: String,
@@ -64,24 +64,24 @@ class CommandProcessor {
         try {
             val aiConfig = promptConfig.customAIs[aiName]
             if (aiConfig == null) {
-                Messages.showErrorDialog(project, "未找到AI配置: $aiName", "配置错误")
+                Messages.showErrorDialog(project, "AI configuration not found: $aiName", "Configuration Error")
                 return
             }
             val shortcutReplacer = ShortcutCommandReplacer(promptConfig)
             val expandedPrompt = shortcutReplacer.replaceShortcuts(promptText)
             val commandContext = context.copy()
             val expandedCommand = expandCommandTemplate(aiConfig.command, expandedPrompt, commandContext)
-            logger.info("执行提示词命令 - AI: $aiName, 原始提示词: $promptText, 展开后提示词: $expandedPrompt")
-            logger.info("展开后命令: $expandedCommand")
-            executeInIntegratedTerminal(expandedCommand, project, "AI提示词执行: ${aiConfig.displayName}")
+            logger.info("Executing prompt command - AI: $aiName, original prompt: $promptText, expanded prompt: $expandedPrompt")
+            logger.info("Expanded command: $expandedCommand")
+            executeInIntegratedTerminal(expandedCommand, project, "AI Prompt Execution: ${aiConfig.displayName}")
         } catch (e: Exception) {
-            logger.error("执行提示词命令失败", e)
-            Messages.showErrorDialog(project, "执行AI命令失败: ${e.message}", "AI命令执行错误")
+            logger.error("Failed to execute prompt command", e)
+            Messages.showErrorDialog(project, "Failed to execute AI command: ${e.message}", "AI Command Execution Error")
         }
     }
 
     /**
-     * 扩展命令模板（通用）
+     * Expand command template (general)
      */
     private fun expandCommandTemplate(template: String, context: FileContext): String {
         return template
@@ -93,7 +93,7 @@ class CommandProcessor {
     }
 
     /**
-     * 扩展提示词命令模板
+     * Expand prompt command template
      */
     private fun expandCommandTemplate(template: String, prompt: String, context: FileContext): String {
         val safePrompt = prompt.replace("'", "'\\''")
@@ -107,7 +107,7 @@ class CommandProcessor {
     }
 
     /**
-     * 在IDE集成的终端中执行命令 (使用 TerminalToolWindowManager 的正确方式)
+     * Execute command in IDE integrated terminal (using TerminalToolWindowManager correctly)
      */
     private fun executeInIntegratedTerminal(command: String, project: Project, title: String) {
         try {
@@ -118,26 +118,26 @@ class CommandProcessor {
 
             localShellWidgt.executeCommand(command)
 
-            logger.info("命令已通过 TerminalToolWindowManager 发送至集成终端: $command")
+            logger.info("Command sent to integrated terminal via TerminalToolWindowManager: $command")
         } catch (e: Exception) {
-            logger.error("无法在集成终端中执行命令: $command", e)
+            logger.error("Unable to execute command in integrated terminal: $command", e)
             Messages.showErrorDialog(
                     project,
-                    "无法在集成终端中执行命令: ${e.message}\n请确保Terminal插件已启用。",
-                    "终端执行错误"
+                    "Unable to execute command in integrated terminal: ${e.message}\nPlease ensure Terminal plugin is enabled.",
+                    "Terminal Execution Error"
             )
         }
     }
 
     /**
-     * 在IDE终端中执行命令
+     * Execute command in IDE terminal
      */
     private fun executeCommandBackground(command: String, project: Project, title: String) {
         executeRuntimeCommand(command, project)
     }
 
     /**
-     * 使用Runtime执行命令（备用方案）
+     * Execute command using Runtime (fallback)
      */
     private fun executeRuntimeCommand(command: String, project: Project) {
         try {
@@ -151,34 +151,34 @@ class CommandProcessor {
                 }
             }
 
-            logger.info("Runtime命令执行: $command")
+            logger.info("Runtime command execution: $command")
 
         } catch (e: Exception) {
-            logger.error("Runtime命令执行失败: $command", e)
+            logger.error("Runtime command execution failed: $command", e)
             Messages.showErrorDialog(
                     project,
-                    "命令执行失败: ${e.message}",
-                    "执行错误"
+                    "Command execution failed: ${e.message}",
+                    "Execution Error"
             )
         }
     }
 
 
     /**
-     * 获取当前编辑器实例
+     * Get current editor instance
      */
     private fun getCurrentEditor(project: Project): com.intellij.openapi.editor.Editor? {
         return try {
             val fileEditorManager = com.intellij.openapi.fileEditor.FileEditorManager.getInstance(project)
             fileEditorManager.selectedTextEditor
         } catch (e: Exception) {
-            logger.error("获取当前编辑器失败", e)
+            logger.error("Failed to get current editor", e)
             null
         }
     }
 
     /**
-     * 获取当前文件上下文
+     * Get current file context
      */
     private fun getCurrentFileContext(project: Project): FileContext? {
         return try {
@@ -197,7 +197,7 @@ class CommandProcessor {
                     selectedText = selectedText
             )
         } catch (e: Exception) {
-            logger.error("获取文件上下文失败", e)
+            logger.error("Failed to get file context", e)
             null
         }
     }

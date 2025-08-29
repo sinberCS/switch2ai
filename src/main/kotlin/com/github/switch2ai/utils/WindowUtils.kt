@@ -9,7 +9,7 @@ object WindowUtils {
 
 
     /**
-     *   TODO 这里需要考虑为active任意agent的窗口
+     *   TODO: Need to consider activating any agent window here
      */
     fun activeWindow() {
         if (!SystemInfo.isWindows) {

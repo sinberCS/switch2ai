@@ -16,7 +16,7 @@ import java.awt.event.KeyEvent
 import javax.swing.*
 
 /**
- * 提示词输入弹窗
+ * Prompt Input Dialog
  */
 class PromptInputDialog(
     private val project: Project,
@@ -35,12 +35,12 @@ class PromptInputDialog(
     private var promptText: String = ""
 
     init {
-        title = "AI提示词输入"
-        setOKButtonText("执行")
-        setCancelButtonText("取消")
+        title = "AI Prompt Input"
+        setOKButtonText("Execute")
+        setCancelButtonText("Cancel")
         init()
         
-        // 设置弹窗大小和位置
+        // Set dialog size and position
         setSize(600, 400)
     }
 
@@ -50,24 +50,24 @@ class PromptInputDialog(
         
         val gbc = GridBagConstraints()
         
-        // 文件信息显示
+        // File information display
         gbc.gridx = 0
         gbc.gridy = 0
         gbc.gridwidth = 2
         gbc.anchor = GridBagConstraints.WEST
         gbc.insets = JBUI.insets(0, 0, 10, 0)
         
-        fileInfoLabel = JBLabel("文件: $currentFilePath | 行: $currentLine | 列: $currentColumn")
+        fileInfoLabel = JBLabel("File: $currentFilePath | Line: $currentLine | Column: $currentColumn")
         fileInfoLabel.foreground = JBUI.CurrentTheme.Label.disabledForeground()
         panel.add(fileInfoLabel, gbc)
         
-        // AI选择器标签
+        // AI selector label
         gbc.gridy = 1
         gbc.gridwidth = 1
         gbc.insets = JBUI.insets(0, 0, 5, 10)
-        panel.add(JBLabel("AI模式:"), gbc)
+        panel.add(JBLabel("AI Mode:"), gbc)
         
-        // AI选择器
+        // AI selector
         gbc.gridx = 1
         gbc.fill = GridBagConstraints.HORIZONTAL
         gbc.weightx = 1.0
@@ -77,7 +77,7 @@ class PromptInputDialog(
         val aiNames = enabledAIs.map { it.displayName }.toTypedArray()
         aiSelector = JComboBox(aiNames)
         
-        // 设置当前选中的AI
+        // Set currently selected AI
         val currentAI = promptConfig.getCurrentAI()
         if (currentAI != null) {
             val index = enabledAIs.indexOfFirst { it.name == currentAI.name }
@@ -95,15 +95,15 @@ class PromptInputDialog(
         
         panel.add(aiSelector, gbc)
         
-        // 提示词输入标签
+        // Prompt input label
         gbc.gridx = 0
         gbc.gridy = 2
         gbc.fill = GridBagConstraints.NONE
         gbc.weightx = 0.0
         gbc.insets = JBUI.insets(10, 0, 5, 10)
-        panel.add(JBLabel("提示词:"), gbc)
+        panel.add(JBLabel("Prompt:"), gbc)
         
-        // 提示词输入框
+        // Prompt input field
         gbc.gridx = 0
         gbc.gridy = 3
         gbc.gridwidth = 2
@@ -116,17 +116,17 @@ class PromptInputDialog(
         promptTextArea.rows = 6
         promptTextArea.lineWrap = true
         promptTextArea.wrapStyleWord = true
-        promptTextArea.emptyText.text = "请输入提示词，支持快捷命令如: \$test, \$refactor, \$explain..."
+        promptTextArea.emptyText.text = "Please enter prompt, supports shortcut commands like: \$test, \$refactor, \$explain..."
         
-        // 添加键盘监听器
+        // Add keyboard listener
         promptTextArea.addKeyListener(object : KeyAdapter() {
             override fun keyPressed(e: KeyEvent) {
                 if (e.keyCode == KeyEvent.VK_ENTER && !e.isShiftDown) {
-                    // Enter键执行，Shift+Enter换行
+                    // Enter key executes, Shift+Enter new line
                     e.consume()
                     doOKAction()
                 } else if (e.keyCode == KeyEvent.VK_ESCAPE) {
-                    // Esc键取消
+                    // Esc key cancels
                     e.consume()
                     doCancelAction()
                 }
@@ -137,14 +137,14 @@ class PromptInputDialog(
         scrollPane.preferredSize = Dimension(500, 150)
         panel.add(scrollPane, gbc)
         
-        // 快捷命令帮助
+        // Shortcut command help
         gbc.gridy = 4
         gbc.weighty = 0.0
         gbc.fill = GridBagConstraints.HORIZONTAL
         gbc.insets = JBUI.insets(0, 0, 0, 0)
         
         val shortcuts = promptConfig.shortcutCommands.keys.joinToString(", ")
-        shortcutHelpLabel = JBLabel("可用快捷命令: $shortcuts")
+        shortcutHelpLabel = JBLabel("Available shortcut commands: $shortcuts")
         shortcutHelpLabel.foreground = JBUI.CurrentTheme.Label.disabledForeground()
         panel.add(shortcutHelpLabel, gbc)
         
@@ -158,7 +158,7 @@ class PromptInputDialog(
     override fun doValidate(): ValidationInfo? {
         val text = promptTextArea.text?.trim()
         if (text.isNullOrEmpty()) {
-            return ValidationInfo("请输入提示词", promptTextArea)
+            return ValidationInfo("Please enter prompt", promptTextArea)
         }
         return null
     }
@@ -169,17 +169,17 @@ class PromptInputDialog(
     }
 
     /**
-     * 获取选中的AI
+     * Get selected AI
      */
     fun getSelectedAI(): String = selectedAI
 
     /**
-     * 获取输入的提示词
+     * Get input prompt text
      */
     fun getPromptText(): String = promptText
 
     /**
-     * 显示对话框并返回结果
+     * Show dialog and return result
      */
     fun showAndGetResult(): PromptInputResult? {
         return if (showAndGet()) {
@@ -191,7 +191,7 @@ class PromptInputDialog(
 }
 
 /**
- * 提示词输入结果
+ * Prompt input result
  */
 data class PromptInputResult(
     val aiName: String,

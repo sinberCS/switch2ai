@@ -11,8 +11,8 @@ import com.intellij.openapi.project.Project
 import javax.swing.KeyStroke
 
 /**
- * 动态动作注册器
- * 负责自定义命令的动态注册和管理
+ * Dynamic Action Registry
+ * Responsible for dynamic registration and management of custom commands
  */
 @Service(Service.Level.PROJECT)
 class DynamicActionRegistry {
@@ -20,10 +20,10 @@ class DynamicActionRegistry {
     private val logger = Logger.getInstance(DynamicActionRegistry::class.java)
     private val commandProcessor = CommandProcessor()
 
-    // 当前注册的动作ID列表
+    // Currently registered action ID list
     private val registeredActionIds = mutableSetOf<String>()
 
-    // 当前生效的配置缓存
+    // Currently effective configuration cache
     private var currentConfig: PluginConfig? = null
 
     companion object {
@@ -33,88 +33,88 @@ class DynamicActionRegistry {
     }
 
     /**
-     * 注册所有自定义命令
+     * Register all custom commands
      */
     fun registerAllCustomCommands(project: Project, config: PluginConfig) {
         if (isConfigSame(config)) {
-            logger.info("配置未变更，跳过重新注册")
+            logger.info("Configuration unchanged, skipping re-registration")
             return
         }
 
-        // 清理旧的注册
+        // Clean up old registrations
         unregisterAllActions()
 
-        // 注册自定义命令
+        // Register custom commands
         config.customCommands.values.forEach { command ->
             registerCustomCommand(project, command)
         }
 
-        // 注册提示词命令（固定快捷键）
+        // Register prompt action (fixed shortcut)
         registerPromptAction(project, config)
 
-        // 注册右键菜单
+        // Register context menus
         registerContextMenus(project, config.customCommands.values)
 
-        // 更新配置缓存
+        // Update configuration cache
         currentConfig = deepCopyConfig(config)
 
-        logger.info("已注册 ${registeredActionIds.size} 个动作")
+        logger.info("Registered ${registeredActionIds.size} actions")
     }
 
     /**
-     * 注册单个自定义命令
+     * Register single custom command
      */
     private fun registerCustomCommand(project: Project, command: CustomCommand) {
         try {
             val actionManager = ActionManager.getInstance()
             val actionId = getActionId(command.id)
 
-            // 创建动态动作
+            // Create dynamic action
             val action = CustomCommandAction(command, commandProcessor)
 
-            // 注册动作
+            // Register action
             actionManager.registerAction(actionId, action)
             registeredActionIds.add(actionId)
 
-            // 注册快捷键
+            // Register shortcut
             if (command.shortcut.isNotEmpty()) {
                 registerShortcut(project, actionId, command.shortcut)
             }
 
-            logger.info("已注册自定义命令: ${command.id} (${actionId}) 快捷键: ${command.shortcut}")
+            logger.info("Custom command registered: ${command.id} (${actionId}) shortcut: ${command.shortcut}")
 
         } catch (e: Exception) {
-            logger.error("注册自定义命令失败: ${command.id}", e)
+            logger.error("Failed to register custom command: ${command.id}", e)
         }
     }
 
     /**
-     * 注册提示词动作
+     * Register prompt action
      */
     private fun registerPromptAction(project: Project, config: PluginConfig) {
         try {
             val actionManager = ActionManager.getInstance()
             val actionId = "switch2ai.promptAction"
 
-            // 创建提示词动作
+            // Create prompt action
             val action = PromptAction(config.promptConfiguration, commandProcessor)
 
-            // 注册动作
+            // Register action
             actionManager.registerAction(actionId, action)
             registeredActionIds.add(actionId)
 
-            // 注册固定快捷键 Alt+Shift+P
+            // Register fixed shortcut Alt+Shift+P
             registerShortcut(project, actionId, "Alt+Shift+K")
 
-            logger.info("已注册提示词动作: $actionId")
+            logger.info("Prompt action registered: $actionId")
 
         } catch (e: Exception) {
-            logger.error("注册提示词动作失败", e)
+            logger.error("Failed to register prompt action", e)
         }
     }
 
     /**
-     * 处理快捷键格式，转换为IDEA插件标准格式
+     * Process shortcut format, convert to IDEA plugin standard format
      */
     private fun processKeyMap(shortcut: String): String {
         return shortcut.lowercase()
@@ -133,11 +133,11 @@ class DynamicActionRegistry {
     }
 
     /**
-     * 注册快捷键
+     * Register shortcut
      */
     private fun registerShortcut(project: Project, actionId: String, shortcutText: String) {
         try {
-            // 使用统一的快捷键处理方法
+            // Use unified shortcut processing method
             val normalizedShortcut = processKeyMap(shortcutText)
             val keyStroke = KeyStroke.getKeyStroke(normalizedShortcut)
 
@@ -145,17 +145,17 @@ class DynamicActionRegistry {
                 val keymap = com.intellij.openapi.keymap.KeymapManager.getInstance().activeKeymap
                 val shortcut = com.intellij.openapi.actionSystem.KeyboardShortcut(keyStroke, null)
                 keymap.addShortcut(actionId, shortcut)
-                logger.info("已注册快捷键: $shortcutText -> $actionId")
+                logger.info("Shortcut registered: $shortcutText -> $actionId")
             } else {
-                logger.error("无法解析快捷键: $shortcutText (处理后: $normalizedShortcut)")
+                logger.error("Unable to parse shortcut: $shortcutText (processed: $normalizedShortcut)")
             }
         } catch (e: Exception) {
-            logger.error("注册快捷键失败: $shortcutText -> $actionId", e)
+            logger.error("Failed to register shortcut: $shortcutText -> $actionId", e)
         }
     }
 
     /**
-     * 注册右键菜单
+     * Register context menu
      */
     private fun registerContextMenus(project: Project, commands: Collection<CustomCommand>) {
         try {
@@ -163,10 +163,10 @@ class DynamicActionRegistry {
             val editorPopupGroup = actionManager.getAction("EditorPopupMenu") as? DefaultActionGroup
 
             if (editorPopupGroup != null) {
-                // 添加分隔符
+                // Add separator
                 editorPopupGroup.add(Separator("Switch2AI"))
 
-                // 添加自定义命令到右键菜单
+                // Add custom commands to context menu
                 commands.forEach { command ->
                     val actionId = getActionId(command.id)
                     val action = actionManager.getAction(actionId)
@@ -175,54 +175,54 @@ class DynamicActionRegistry {
                     }
                 }
 
-                // 添加提示词动作
+                // Add prompt action
                 val promptAction = actionManager.getAction("switch2ai.promptAction")
                 if (promptAction != null) {
                     editorPopupGroup.add(promptAction)
                 }
 
-                logger.info("已注册右键菜单")
+                logger.info("Context menu registered")
             }
 
         } catch (e: Exception) {
-            logger.error("注册右键菜单失败", e)
+            logger.error("Failed to register context menu", e)
         }
     }
 
     /**
-     * 注销所有动作
+     * Unregister all actions
      */
     fun unregisterAllActions() {
         try {
             val actionManager = ActionManager.getInstance()
             val keymap = com.intellij.openapi.keymap.KeymapManager.getInstance().activeKeymap
 
-            // 移除快捷键和动作
+            // Remove shortcuts and actions
             registeredActionIds.forEach { actionId ->
                 try {
-                    // 移除快捷键
+                    // Remove shortcuts
                     keymap.removeAllActionShortcuts(actionId)
 
-                    // 注销动作
+                    // Unregister actions
                     actionManager.unregisterAction(actionId)
                 } catch (e: Exception) {
-                    logger.error("注销动作失败: $actionId", e)
+                    logger.error("Failed to unregister action: $actionId", e)
                 }
             }
 
-            // 清理右键菜单
+            // Clean up context menu
             removeFromContextMenu()
 
             registeredActionIds.clear()
-            logger.info("已注销所有动作")
+            logger.info("All actions unregistered")
 
         } catch (e: Exception) {
-            logger.error("注销动作失败", e)
+            logger.error("Failed to unregister actions", e)
         }
     }
 
     /**
-     * 从右键菜单移除动作
+     * Remove actions from context menu
      */
     private fun removeFromContextMenu() {
         try {
@@ -232,7 +232,7 @@ class DynamicActionRegistry {
             if (editorPopupGroup != null) {
                 val actionsToRemove = mutableListOf<AnAction>()
 
-                // 查找需要移除的动作
+                // Find actions to remove
                 editorPopupGroup.childActionsOrStubs.forEach { action ->
                     if (action is AnAction) {
                         val actionId = ActionManager.getInstance().getId(action)
@@ -244,26 +244,26 @@ class DynamicActionRegistry {
                     }
                 }
 
-                // 移除动作
+                // Remove actions
                 actionsToRemove.forEach { action ->
                     editorPopupGroup.remove(action)
                 }
 
-                logger.info("已从右键菜单移除 ${actionsToRemove.size} 个项目")
+                logger.info("Removed ${actionsToRemove.size} items from context menu")
             }
 
         } catch (e: Exception) {
-            logger.error("从右键菜单移除动作失败", e)
+            logger.error("Failed to remove actions from context menu", e)
         }
     }
 
     /**
-     * 检查配置是否相同
+     * Check if configuration is the same
      */
     private fun isConfigSame(newConfig: PluginConfig): Boolean {
         val current = currentConfig ?: return false
 
-        // 比较自定义命令
+        // Compare custom commands
         if (current.customCommands.size != newConfig.customCommands.size) return false
 
         for ((key, newCommand) in newConfig.customCommands) {
@@ -276,7 +276,7 @@ class DynamicActionRegistry {
             }
         }
 
-        // 比较提示词配置
+        // Compare prompt configuration
         if (current.promptConfiguration.currentAI != newConfig.promptConfiguration.currentAI ||
                 current.promptConfiguration.customAIs != newConfig.promptConfiguration.customAIs ||
                 current.promptConfiguration.shortcutCommands != newConfig.promptConfiguration.shortcutCommands) {
@@ -287,7 +287,7 @@ class DynamicActionRegistry {
     }
 
     /**
-     * 深度复制配置
+     * Deep copy configuration
      */
     private fun deepCopyConfig(config: PluginConfig): PluginConfig {
         return config.copy(
@@ -300,14 +300,14 @@ class DynamicActionRegistry {
     }
 
     /**
-     * 获取动作ID
+     * Get action ID
      */
     private fun getActionId(commandId: String): String {
         return "switch2ai.$commandId"
     }
 
     /**
-     * 自定义命令动作类
+     * Custom command action class
      */
     private inner class CustomCommandAction(
             private val command: CustomCommand,
@@ -336,12 +336,12 @@ class DynamicActionRegistry {
     }
 
     /**
-     * 提示词动作类
+     * Prompt action class
      */
     private inner class PromptAction(
             private val promptConfig: com.github.switch2ai.config.model.PromptAIConfiguration,
             private val processor: CommandProcessor
-    ) : AnAction("switch2ai.prompt", "打开AI提示词输入弹窗", null) {
+    ) : AnAction("switch2ai.prompt", "Open AI prompt input popup", null) {
 
         override fun getActionUpdateThread(): ActionUpdateThread {
             return ActionUpdateThread.BGT
@@ -363,11 +363,11 @@ class DynamicActionRegistry {
     }
 
     /**
-     * 获取当前文件上下文
+     * Get current file context
      */
     private fun getCurrentFileContext(project: Project): FileContext? {
         try {
-            // 获取当前编辑器和文件信息
+            // Get current editor and file information
             val fileEditorManager = com.intellij.openapi.fileEditor.FileEditorManager.getInstance(project)
             val editor = fileEditorManager.selectedTextEditor ?: return null
             val virtualFile = fileEditorManager.selectedFiles.firstOrNull() ?: return null
@@ -387,7 +387,7 @@ class DynamicActionRegistry {
             )
 
         } catch (e: Exception) {
-            logger.error("获取文件上下文失败", e)
+            logger.error("Failed to get file context", e)
             return null
         }
     }

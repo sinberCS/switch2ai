@@ -1,196 +1,196 @@
-# AI状态管理模块 - 第一阶段开发完成
+# AI State Management Module - Phase 1 Development Complete
 
-## 概述
-本模块实现了AI状态管理功能，支持在IDE中切换不同的AI工具（如Cursor、Qoder等）。经过后续阶段的优化，现在支持动态配置驱动的AI管理，具备更好的扩展性和维护性。
+## Overview
+This module implements AI state management functionality, supporting switching between different AI tools (such as Cursor, Qoder, etc.) in the IDE. After subsequent phase optimizations, it now supports configuration-driven AI management with better extensibility and maintainability.
 
-## 功能特性
+## Features
 
-### 1. AI状态管理
-- 支持动态配置的AI类型（默认：cursor、qoder、claudeCode）
-- 可扩展支持更多AI类型
-- 状态持久化保存
-- 状态变化监听机制
-- 配置变更时自动调整AI状态
+### 1. AI State Management
+- Support for dynamically configured AI types (default: cursor, qoder, claudeCode)
+- Extensible support for more AI types
+- State persistence
+- State change listener mechanism
+- Automatic AI state adjustment when configuration changes
 
-### 2. 状态栏显示
-- 在IDE底部状态栏显示当前AI状态
-- 点击状态栏可弹出AI选择菜单
-- 实时更新AI状态显示
+### 2. Status Bar Display
+- Display current AI state in IDE bottom status bar
+- Click status bar to pop up AI selection menu
+- Real-time AI state display updates
 
-### 3. 快捷键支持
-- `Alt+Shift+S`: 切换到下一个AI
-- 支持循环切换AI类型
-- 支持动态配置的AI切换快捷键（如：option+shift+1/2/3）
-- 快捷键冲突自动检测和解决
+### 3. Shortcut Support
+- `Alt+Shift+S`: Switch to next AI
+- Support for cycling through AI types
+- Support for dynamically configured AI switching shortcuts (e.g., option+shift+1/2/3)
+- Automatic shortcut conflict detection and resolution
 
-### 4. 用户界面
-- 状态栏组件显示当前AI
-- 弹出菜单选择AI
-- 切换成功提示消息
+### 4. User Interface
+- Status bar component displaying current AI
+- Popup menu for AI selection
+- Switch success prompt messages
 
-## 代码结构
+## Code Structure
 
 ```
 src/main/kotlin/com/github/switch2ai/
 ├── state/
-│   ├── AIStateManager.kt           # AI状态管理器（已优化）
-│   └── AIStatePersistentComponent.kt # 状态持久化组件
+│   ├── AIStateManager.kt           # AI State Manager (optimized)
+│   └── AIStatePersistentComponent.kt # State Persistence Component
 ├── ui/
-│   ├── AIStatusBarWidget.kt        # 状态栏组件
-│   └── AISelectionPopup.kt         # AI选择弹窗
+│   ├── AIStatusBarWidget.kt        # Status Bar Component
+│   └── AISelectionPopup.kt         # AI Selection Popup
 ├── actions/
-│   ├── SwitchAIAction.kt           # AI切换动作
-│   ├── AbstractDynamicActionRegistry.kt # 抽象动态注册器（新增）
-│   ├── DynamicActionRegistry.kt    # 动态动作注册器（已重构）
-│   └── DynamicSwitchAIActionRegistry.kt # 动态AI切换注册器（新增）
+│   ├── SwitchAIAction.kt           # AI Switch Action
+│   ├── AbstractDynamicActionRegistry.kt # Abstract Dynamic Registry (new)
+│   ├── DynamicActionRegistry.kt    # Dynamic Action Registry (refactored)
+│   └── DynamicSwitchAIActionRegistry.kt # Dynamic AI Switch Registry (new)
 └── settings/
-    └── AppSettingsState.kt         # 统一配置管理（已优化）
+    └── AppSettingsState.kt         # Unified Configuration Management (optimized)
 ```
 
-## 核心类说明
+## Core Class Description
 
 ### AIStateManager
-- 管理当前选中的AI状态
-- 提供AI切换功能
-- 支持状态变化监听
-- 验证AI类型有效性
-- **新增**: 从 `AppSettingsState` 动态获取支持的AI类型
-- **新增**: 配置变更时自动调整AI状态
-- **新增**: 支持配置驱动的AI管理
+- Manages currently selected AI state
+- Provides AI switching functionality
+- Supports state change listening
+- Validates AI type validity
+- **New**: Dynamically obtains supported AI types from `AppSettingsState`
+- **New**: Automatically adjusts AI state when configuration changes
+- **New**: Supports configuration-driven AI management
 
 ### AIStatePersistentComponent
-- 实现状态的持久化保存
-- 在IDE重启后恢复AI状态
-- 支持自定义AI类型扩展
+- Implements state persistence
+- Restores AI state after IDE restart
+- Supports custom AI type extension
 
 ### AIStatusBarWidget
-- 在状态栏显示当前AI状态
-- 支持点击切换AI
-- 实时更新显示内容
+- Displays current AI state in status bar
+- Supports click to switch AI
+- Real-time display content updates
 
 ### AISelectionPopup
-- 显示可选择的AI列表
-- 支持鼠标悬停效果
-- 点击选择AI类型
+- Displays selectable AI list
+- Supports mouse hover effects
+- Click to select AI type
 
 ### SwitchAIAction
-- 处理AI切换快捷键
-- 显示切换成功消息
-- 集成到IDE菜单系统
+- Handles AI switching shortcuts
+- Displays switch success messages
+- Integrates with IDE menu system
 
-## 使用方法
+## Usage
 
-### 1. 通过状态栏切换AI
-1. 查看IDE底部状态栏的"AI: cursor"显示
-2. 点击状态栏组件
-3. 在弹出的菜单中选择目标AI
-4. AI状态立即更新
+### 1. Switch AI via Status Bar
+1. View "AI: cursor" display in IDE bottom status bar
+2. Click status bar component
+3. Select target AI from popup menu
+4. AI state updates immediately
 
-### 2. 通过快捷键切换AI
-1. 按下 `Alt+Shift+S`
-2. AI自动切换到下一个类型
-3. 显示切换成功消息
+### 2. Switch AI via Shortcut
+1. Press `Alt+Shift+S`
+2. AI automatically switches to next type
+3. Display switch success message
 
-### 3. 通过菜单切换AI
-1. 点击 `Tools` → `Switch AI`
-2. AI自动切换到下一个类型
-3. 显示切换成功消息
+### 3. Switch AI via Menu
+1. Click `Tools` → `Switch AI`
+2. AI automatically switches to next type
+3. Display switch success message
 
-### 4. 通过配置驱动的快捷键切换AI（新增）
-1. 使用配置的快捷键（如：option+shift+1 切换到 cursor）
-2. 支持动态配置的AI切换快捷键
-3. 配置变更时快捷键自动更新
+### 4. Switch AI via Configuration-Driven Shortcuts (New)
+1. Use configured shortcuts (e.g., option+shift+1 to switch to cursor)
+2. Support for dynamically configured AI switching shortcuts
+3. Shortcuts automatically update when configuration changes
 
-## 配置说明
+## Configuration
 
-### 支持的AI类型
-- `cursor`: Cursor编辑器（默认快捷键：option+shift+1）
-- `qoder`: Qoder编辑器（默认快捷键：option+shift+2）
-- `claudeCode`: Claude编辑器（默认快捷键：option+shift+3）
+### Supported AI Types
+- `cursor`: Cursor editor (default shortcut: option+shift+1)
+- `qoder`: Qoder editor (default shortcut: option+shift+2)
+- `claudeCode`: Claude editor (default shortcut: option+shift+3)
 
-### 默认设置
-- 默认AI: cursor
-- 快捷键: Alt+Shift+S（循环切换）
-- 状态栏显示: 启用
-- 配置驱动: 支持动态配置和快捷键自定义
+### Default Settings
+- Default AI: cursor
+- Shortcut: Alt+Shift+S (cycle switch)
+- Status bar display: enabled
+- Configuration driven: supports dynamic configuration and shortcut customization
 
-## 扩展性
+## Extensibility
 
-### 添加新的AI类型
-1. 在`AppSettingsState`的配置中添加新AI类型
-2. 配置AI的快捷键和基本信息
-3. 系统自动注册新的AI切换动作
-4. 无需修改核心代码，完全配置驱动
+### Adding New AI Types
+1. Add new AI type in `AppSettingsState` configuration
+2. Configure AI shortcuts and basic information
+3. System automatically registers new AI switch actions
+4. No core code modification required, fully configuration-driven
 
-### 自定义快捷键
-1. 在`AppSettingsState`中修改AI或动作的快捷键配置
-2. 系统自动检测快捷键冲突并提供解决方案
-3. 配置变更立即生效（不涉及快捷键变更时）
-4. 涉及快捷键变更时会提示重启IDE
+### Custom Shortcuts
+1. Modify AI or action shortcut configuration in `AppSettingsState`
+2. System automatically detects shortcut conflicts and provides solutions
+3. Configuration changes take effect immediately (when shortcuts don't change)
+4. IDE restart prompt when shortcuts change
 
-## 测试
+## Testing
 
-### 运行测试
+### Run Tests
 ```bash
 ./gradlew test
 ```
 
-### 测试覆盖
-- AI状态管理功能
-- 状态切换逻辑
-- 监听器机制
-- 边界情况处理
+### Test Coverage
+- AI state management functionality
+- State switching logic
+- Listener mechanism
+- Edge case handling
 
-## 注意事项
+## Notes
 
-1. **状态持久化**: AI状态会在IDE重启后自动恢复
-2. **扩展性**: 支持添加新的AI类型，无需修改核心代码
-3. **性能**: 状态变化监听器使用轻量级实现，性能影响最小
-4. **兼容性**: 支持IntelliJ IDEA 2022.3及以上版本
-5. **配置驱动**: 所有AI和动作配置现在通过 `AppSettingsState` 统一管理
-6. **动态更新**: 配置变更时系统会自动响应，无需手动重启
-7. **快捷键冲突**: 系统会自动检测快捷键冲突并提供解决方案
+1. **State Persistence**: AI state automatically restores after IDE restart
+2. **Extensibility**: Supports adding new AI types without core code modification
+3. **Performance**: State change listeners use lightweight implementation with minimal performance impact
+4. **Compatibility**: Supports IntelliJ IDEA 2022.3 and above
+5. **Configuration Driven**: All AI and action configurations now managed through `AppSettingsState`
+6. **Dynamic Updates**: System automatically responds to configuration changes without manual restart
+7. **Shortcut Conflicts**: System automatically detects shortcut conflicts and provides solutions
 
-## 开发阶段完成情况
+## Development Phase Completion Status
 
-### 阶段1: AI状态管理模块 ✅
-- 实现AI状态管理功能
-- 支持状态栏显示和快捷键切换
-- 状态持久化保存
+### Phase 1: AI State Management Module ✅
+- Implement AI state management functionality
+- Support status bar display and shortcut switching
+- State persistence
 
-### 阶段2: 功能模块拆分 ✅
-- 将命令执行拆分为配置模块、信息读取模块、命令执行模块
-- 实现模块间的解耦和独立测试
+### Phase 2: Function Module Separation ✅
+- Separate command execution into configuration module, information reading module, command execution module
+- Implement module decoupling and independent testing
 
-### 阶段3: 基于配置的AI、动作注册和快捷键 ✅
-- 实现基于配置的动态动作注册
-- 支持动态快捷键绑定和冲突检测
-- 添加右键菜单支持
-- **架构优化**: 创建抽象父类实现代码复用
-- **统一配置**: 通过 `AppSettingsState` 统一管理配置
-- **代码简化**: 显著减少代码量，提高维护性
+### Phase 3: Configuration-Based AI, Action Registration and Shortcuts ✅
+- Implement configuration-based dynamic action registration
+- Support dynamic shortcut binding and conflict detection
+- Add right-click menu support
+- **Architecture Optimization**: Create abstract parent class for code reuse
+- **Unified Configuration**: Unified configuration management through `AppSettingsState`
+- **Code Simplification**: Significantly reduce code volume, improve maintainability
 
-## 架构优化成果
+## Architecture Optimization Results
 
-### 抽象继承设计
-- 创建 `AbstractDynamicActionRegistry<T>` 抽象父类
-- 实现代码复用和逻辑简化
-- 支持泛型设计，便于扩展
+### Abstract Inheritance Design
+- Create `AbstractDynamicActionRegistry<T>` abstract parent class
+- Implement code reuse and logic simplification
+- Support generic design for easy extension
 
-### 统一配置管理
-- 将配置管理功能合并到 `AppSettingsState`
-- 支持配置的实时更新和同步
-- 实现配置变更的自动响应
+### Unified Configuration Management
+- Merge configuration management functionality into `AppSettingsState`
+- Support real-time configuration updates and synchronization
+- Implement automatic response to configuration changes
 
-### 性能优化
-- 数据类合并，避免重复定义
-- 减少不必要的对象创建和类型转换
-- 提升配置变更的响应速度
+### Performance Optimization
+- Merge data classes to avoid duplicate definitions
+- Reduce unnecessary object creation and type conversion
+- Improve configuration change response speed
 
-## 问题反馈
+## Issue Reporting
 
-如果在使用过程中遇到问题，请：
-1. 检查IDE版本是否支持
-2. 查看IDE事件日志
-3. 确认插件是否正确安装
-4. 提交Issue描述问题详情
+If you encounter problems during use, please:
+1. Check if IDE version is supported
+2. View IDE event logs
+3. Confirm plugin is correctly installed
+4. Submit Issue describing problem details

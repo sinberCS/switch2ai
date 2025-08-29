@@ -12,7 +12,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 
 /**
- * 应用设置状态管理器
+ * Application Settings State Manager
  */
 @State(
     name = "com.github.switch2ai.settings.AppSettingsState",
@@ -24,15 +24,15 @@ class AppSettingsState : PersistentStateComponent<AppSettingsState> {
 
     @JvmField
     @com.intellij.util.xmlb.annotations.Property(style = com.intellij.util.xmlb.annotations.Property.Style.ATTRIBUTE)
-    // 直接使用PluginConfig作为主要数据源
+    // Directly use PluginConfig as the primary data source
     var pluginConfig: PluginConfig = PluginConfig.getDefaultConfig()
     
-    // 配置变更监听器
+    // Configuration change listeners
     @Transient
     private val configChangeListeners = mutableListOf<(PluginConfig) -> Unit>()
     
     /**
-     * 初始化默认配置
+     * Initialize default configuration
      */
     fun initIfNeed() {
         if (pluginConfig.promptConfiguration.customAIs.isEmpty() && pluginConfig.customCommands.isEmpty()) {
@@ -41,7 +41,7 @@ class AppSettingsState : PersistentStateComponent<AppSettingsState> {
     }
     
     /**
-     * 获取当前配置
+     * Get current configuration
      */
     fun getCurrentConfig(): PluginConfig {
         initIfNeed()
@@ -49,46 +49,46 @@ class AppSettingsState : PersistentStateComponent<AppSettingsState> {
     }
     
     /**
-     * 更新配置
+     * Update configuration
      */
     fun updateConfig(newConfig: PluginConfig, project: Project?) {
         try {
             val oldConfig = pluginConfig
             val requiresRestart = checkIfRequiresRestart(oldConfig, newConfig)
             
-            // 更新配置
+            // Update configuration
             pluginConfig = newConfig
             
-            // 通知监听器
+            // Notify listeners
             notifyConfigChangeListeners(newConfig)
             
             if (project != null) {
                 if (requiresRestart) {
-                    // 显示重启提示
+                    // Show restart prompt
                     showRestartPrompt(project)
-                    logger.info("配置已更新，但需要重启")
+                    logger.info("Configuration updated but requires restart")
                 } else {
-                    Messages.showInfoMessage(project, "配置已更新，立即生效", "配置更新成功")
+                    Messages.showInfoMessage(project, "Configuration updated and effective immediately", "Configuration Update Success")
                 }
             }
             
         } catch (e: Exception) {
-            logger.error("配置更新失败: ${e.message}", e)
+            logger.error("Configuration update failed: ${e.message}", e)
             if (project != null) {
                 Messages.showErrorDialog(
                     project,
-                    "配置更新失败: ${e.message}",
-                    "配置更新错误"
+                    "Configuration update failed: ${e.message}",
+                    "Configuration Update Error"
                 )
             }
         }
     }
     
     /**
-     * 检查是否需要重启
+     * Check if restart is required
      */
     private fun checkIfRequiresRestart(oldConfig: PluginConfig, newConfig: PluginConfig): Boolean {
-        // 自定义命令的快捷键有变更时需要重启
+        // Restart required when custom command shortcuts change
         val oldShortcuts = oldConfig.customCommands.mapValues { it.value.shortcut }
         val newShortcuts = newConfig.customCommands.mapValues { it.value.shortcut }
         
@@ -96,7 +96,7 @@ class AppSettingsState : PersistentStateComponent<AppSettingsState> {
             return true
         }
         
-        // 自定义命令数量有变更时需要重启
+        // Restart required when custom command count changes
         if (oldConfig.customCommands.keys != newConfig.customCommands.keys) {
             return true
         }
@@ -105,45 +105,45 @@ class AppSettingsState : PersistentStateComponent<AppSettingsState> {
     }
     
     /**
-     * 显示重启提示
+     * Show restart prompt
      */
     private fun showRestartPrompt(project: Project) {
         Messages.showInfoMessage(
             project,
-            "配置已更新，但涉及快捷键或命令修改。需要重启IDE才能使新配置生效。",
-            "配置更新提示"
+            "Configuration updated but involves shortcut or command modifications. Restart IDE required for new configuration to take effect.",
+            "Configuration Update Notice"
         )
     }
     
     /**
-     * 添加配置变更监听器
+     * Add configuration change listener
      */
     fun addConfigChangeListener(listener: (PluginConfig) -> Unit) {
         configChangeListeners.add(listener)
     }
     
     /**
-     * 移除配置变更监听器
+     * Remove configuration change listener
      */
     fun removeConfigChangeListener(listener: (PluginConfig) -> Unit) {
         configChangeListeners.remove(listener)
     }
     
     /**
-     * 通知配置变更监听器
+     * Notify configuration change listeners
      */
     private fun notifyConfigChangeListeners(newConfig: PluginConfig) {
         configChangeListeners.forEach { listener ->
             try {
                 listener(newConfig)
             } catch (e: Exception) {
-                logger.error("配置变更监听器出错: ${e.message}", e)
+                logger.error("Configuration change listener error: ${e.message}", e)
             }
         }
     }
     
     /**
-     * 重置为默认配置
+     * Reset to default configuration
      */
     fun resetToDefault(project: Project) {
         val defaultConfig = PluginConfig.getDefaultConfig()
@@ -151,21 +151,21 @@ class AppSettingsState : PersistentStateComponent<AppSettingsState> {
     }
     
     /**
-     * 获取指定AI的配置
+     * Get AI configuration by name
      */
     fun getAIConfig(aiName: String): AIConfig? {
         return getCurrentConfig().promptConfiguration.customAIs[aiName]
     }
     
     /**
-     * 获取指定ID的自定义命令
+     * Get custom command by ID
      */
     fun getCustomCommand(commandId: String): CustomCommand? {
         return getCurrentConfig().customCommands[commandId]
     }
     
     /**
-     * 添加或更新AI配置
+     * Add or update AI configuration
      */
     fun updateAIConfig(aiName: String, aiConfig: AIConfig) {
         val currentConfig = getCurrentConfig()
@@ -174,7 +174,7 @@ class AppSettingsState : PersistentStateComponent<AppSettingsState> {
     }
     
     /**
-     * 添加或更新自定义命令
+     * Add or update custom command
      */
     fun updateCustomCommand(commandId: String, customCommand: CustomCommand) {
         val currentConfig = getCurrentConfig()
@@ -183,7 +183,7 @@ class AppSettingsState : PersistentStateComponent<AppSettingsState> {
     }
     
     /**
-     * 移除AI配置
+     * Remove AI configuration
      */
     fun removeAIConfig(aiName: String) {
         val currentConfig = getCurrentConfig()
@@ -192,7 +192,7 @@ class AppSettingsState : PersistentStateComponent<AppSettingsState> {
     }
     
     /**
-     * 移除自定义命令
+     * Remove custom command
      */
     fun removeCustomCommand(commandId: String) {
         val currentConfig = getCurrentConfig()
@@ -205,7 +205,7 @@ class AppSettingsState : PersistentStateComponent<AppSettingsState> {
     }
     
     override fun loadState(state: AppSettingsState) {
-        // 如果加载的状态有数据，使用它；否则使用默认配置
+        // If loaded state has data, use it; otherwise use default configuration
         com.intellij.util.xmlb.XmlSerializerUtil.copyBean(state, this)
         initIfNeed()
     }

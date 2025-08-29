@@ -17,7 +17,7 @@ import java.awt.event.KeyEvent
 import javax.swing.*
 
 /**
- * 提示词输入弹窗 - 在光标位置显示的小弹窗
+ * Prompt Input Popup - Small popup displayed at cursor position
  */
 class PromptInputPopup(
     private val project: Project,
@@ -44,15 +44,15 @@ class PromptInputPopup(
     )
     
     /**
-     * 显示弹窗并异步返回结果
+     * Show popup and return result asynchronously
      */
     fun showAndGetResult(onResult: (PromptResult?) -> Unit) {
-        // 先创建面板，这样 promptTextArea 就会被初始化
+        // Create panel first so promptTextArea is initialized
         val panel = createPanel(onResult)
         
         popup = JBPopupFactory.getInstance()
-            .createComponentPopupBuilder(panel, promptTextArea)  // 聚焦到文本输入框
-            .setTitle("AI提示词输入")
+            .createComponentPopupBuilder(panel, promptTextArea)  // Focus on text input
+            .setTitle("AI Prompt Input")
             .setResizable(true)
             .setModalContext(false)
             .setRequestFocus(true)
@@ -80,7 +80,7 @@ class PromptInputPopup(
             }
             .createPopup()
         
-        // 在光标位置显示弹窗
+        // Show popup at cursor position
         popup?.showInBestPositionFor(editor)
     }
     
@@ -90,29 +90,29 @@ class PromptInputPopup(
         panel.minimumSize = Dimension(400, 300)
         panel.preferredSize = Dimension(400, 300)
         
-        // 使用系统默认背景色，支持暗色主题
+        // Use system default background color, support dark theme
         panel.background = JBUI.CurrentTheme.DefaultTabs.background()
         
         val gbc = GridBagConstraints()
         
-        // 文件信息显示
+        // File information display
         gbc.gridx = 0
         gbc.gridy = 0
         gbc.gridwidth = 2
         gbc.anchor = GridBagConstraints.WEST
         gbc.insets = JBUI.insets(0, 0, 8, 0)
         
-        fileInfoLabel = JBLabel("文件: $currentFilePath | 行: $currentLine | 列: $currentColumn")
+        fileInfoLabel = JBLabel("File: $currentFilePath | Line: $currentLine | Column: $currentColumn")
         fileInfoLabel.foreground = JBUI.CurrentTheme.Label.disabledForeground()
         panel.add(fileInfoLabel, gbc)
         
-        // AI选择器标签
+        // AI selector label
         gbc.gridy = 1
         gbc.gridwidth = 1
         gbc.insets = JBUI.insets(0, 0, 5, 10)
-        panel.add(JBLabel("AI模式:"), gbc)
+        panel.add(JBLabel("AI Mode:"), gbc)
         
-        // AI选择器
+        // AI selector
         gbc.gridx = 1
         gbc.fill = GridBagConstraints.HORIZONTAL
         gbc.weightx = 1.0
@@ -122,7 +122,7 @@ class PromptInputPopup(
         val aiNames = enabledAIs.map { it.displayName }.toTypedArray()
         aiSelector = JComboBox(aiNames)
         
-        // 设置当前选中的AI
+        // Set currently selected AI
         val currentAI = promptConfig.getCurrentAI()
         if (currentAI != null) {
             val index = enabledAIs.indexOfFirst { it.name == currentAI.name }
@@ -140,14 +140,14 @@ class PromptInputPopup(
         
         panel.add(aiSelector, gbc)
         
-        // 提示词输入标签
+        // Prompt input label
         gbc.gridx = 0
         gbc.gridy = 2
         gbc.gridwidth = 1
         gbc.insets = JBUI.insets(0, 0, 5, 10)
-        panel.add(JBLabel("提示词:"), gbc)
+        panel.add(JBLabel("Prompt:"), gbc)
         
-        // 提示词输入框
+        // Prompt input field
         gbc.gridx = 1
         gbc.gridy = 2
         gbc.gridwidth = 1
@@ -161,7 +161,7 @@ class PromptInputPopup(
         promptTextArea.wrapStyleWord = true
         promptTextArea.preferredSize = Dimension(300, 150)
         
-        // 添加快捷键支持
+        // Add shortcut support
         promptTextArea.addKeyListener(object : KeyAdapter() {
             override fun keyPressed(e: KeyEvent) {
                 if (e.isControlDown && e.keyCode == KeyEvent.VK_ENTER) {
@@ -173,7 +173,7 @@ class PromptInputPopup(
         val scrollPane = JBScrollPane(promptTextArea)
         panel.add(scrollPane, gbc)
         
-        // 快捷命令帮助
+        // Shortcut command help
         gbc.gridx = 0
         gbc.gridy = 3
         gbc.gridwidth = 2
@@ -182,11 +182,11 @@ class PromptInputPopup(
         gbc.weighty = 0.0
         gbc.insets = JBUI.insets(5, 0, 0, 0)
         
-        shortcutHelpLabel = JBLabel("快捷键: Ctrl+Enter 执行, Esc 取消")
+        shortcutHelpLabel = JBLabel("Shortcuts: Ctrl+Enter to execute, Esc to cancel")
         shortcutHelpLabel.foreground = JBUI.CurrentTheme.Label.disabledForeground()
         panel.add(shortcutHelpLabel, gbc)
         
-        // 按钮面板
+        // Button panel
         gbc.gridx = 0
         gbc.gridy = 4
         gbc.gridwidth = 2
@@ -204,10 +204,10 @@ class PromptInputPopup(
         val buttonPanel = JPanel()
         buttonPanel.layout = BoxLayout(buttonPanel, BoxLayout.X_AXIS)
         
-        val executeButton = JButton("执行")
+        val executeButton = JButton("Execute")
         executeButton.addActionListener { confirmAndClose(onResult) }
         
-        val cancelButton = JButton("取消")
+        val cancelButton = JButton("Cancel")
         cancelButton.addActionListener { cancelAndClose(onResult) }
         
         buttonPanel.add(executeButton)

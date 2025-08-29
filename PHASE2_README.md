@@ -1,20 +1,20 @@
-# 第二阶段：模块化重构完成
+# Phase 2: Modular Refactoring Complete
 
-## 概述
-第二阶段的目标是"功能不变，拆分模块"，成功将原有的命令执行功能拆分为三个独立的模块，提高了代码的可维护性和可扩展性。
+## Overview
+Phase 2's goal was "functionality unchanged, modules separated", successfully splitting the original command execution functionality into three independent modules, improving code maintainability and extensibility.
 
-## 已完成的模块
+## Completed Modules
 
-### 1. 配置模块 (ConfigurationManager)
-**文件**: `src/main/kotlin/com/github/switch2ai/config/ConfigurationManager.kt`
+### 1. Configuration Module (ConfigurationManager)
+**File**: `src/main/kotlin/com/github/switch2ai/config/ConfigurationManager.kt`
 
-**功能**:
-- 管理AI配置信息 (AIConfig)
-- 管理动作配置信息 (ActionConfig)
-- 提供默认配置和配置加载功能
-- 支持获取指定AI和动作的命令
+**Functionality**:
+- Manage AI configuration information (AIConfig)
+- Manage action configuration information (ActionConfig)
+- Provide default configuration and configuration loading functionality
+- Support for obtaining commands for specified AI and actions
 
-**核心类**:
+**Core Classes**:
 ```kotlin
 data class AIConfig(
     val name: String,
@@ -34,21 +34,21 @@ data class PluginConfig(
 )
 ```
 
-**设计说明**:
-- AI配置专注于AI的基本信息（名称和快捷键）
-- 动作配置包含完整的命令映射，支持不同AI的命令配置
-- 这种设计使得AI和动作的职责更加清晰分离
+**Design Notes**:
+- AI configuration focuses on AI basic information (name and shortcut)
+- Action configuration contains complete command mapping, supporting different AI command configurations
+- This design makes AI and action responsibilities more clearly separated
 
-### 2. 信息读取模块 (InformationReader)
-**文件**: `src/main/kotlin/com/github/switch2ai/utils/InformationReader.kt`
+### 2. Information Reading Module (InformationReader)
+**File**: `src/main/kotlin/com/github/switch2ai/utils/InformationReader.kt`
 
-**功能**:
-- 从ActionEvent中读取命令执行上下文
-- 获取文件路径、光标位置、选中文本等信息
-- 支持变量替换功能
-- 验证命令上下文的有效性
+**Functionality**:
+- Read command execution context from ActionEvent
+- Obtain file path, cursor position, selected text, and other information
+- Support variable replacement functionality
+- Validate command context validity
 
-**核心类**:
+**Core Classes**:
 ```kotlin
 data class CommandContext(
     val filePath: String,
@@ -59,25 +59,25 @@ data class CommandContext(
 )
 ```
 
-**支持的变量**:
-- `${filePath}`: 当前文件绝对路径
-- `${line}`: 当前光标行号
-- `${column}`: 当前光标列号
-- `${selection}`: 选中的文本
-- `${projectPath}`: 项目路径
+**Supported Variables**:
+- `${filePath}`: Current file absolute path
+- `${line}`: Current cursor line number
+- `${column}`: Current cursor column number
+- `${selection}`: Selected text
+- `${projectPath}`: Project path
 
-**注意**: 变量格式使用 `${variableName}` 而不是 `$variableName`，这样可以避免与系统变量冲突
+**Note**: Variable format uses `${variableName}` instead of `$variableName` to avoid conflicts with system variables
 
-### 3. 命令执行模块 (CommandExecutor)
-**文件**: `src/main/kotlin/com/github/switch2ai/executor/CommandExecutor.kt`
+### 3. Command Execution Module (CommandExecutor)
+**File**: `src/main/kotlin/com/github/switch2ai/executor/CommandExecutor.kt`
 
-**功能**:
-- 执行系统命令
-- 解析命令字符串为数组
-- 记录执行结果和错误信息
-- 提供UI反馈（成功/失败消息）
+**Functionality**:
+- Execute system commands
+- Parse command strings into arrays
+- Record execution results and error information
+- Provide UI feedback (success/failure messages)
 
-**核心类**:
+**Core Classes**:
 ```kotlin
 data class ExecutionResult(
     val success: Boolean,
@@ -88,107 +88,107 @@ data class ExecutionResult(
 )
 ```
 
-### 4. 命令处理器 (CommandProcessor)
-**文件**: `src/main/kotlin/com/github/switch2ai/executor/CommandProcessor.kt`
+### 4. Command Processor (CommandProcessor)
+**File**: `src/main/kotlin/com/github/switch2ai/executor/CommandProcessor.kt`
 
-**功能**:
-- 整合上述三个模块
-- 提供统一的命令处理接口
-- 支持获取可用动作和AI列表
-- 验证动作和AI组合的有效性
+**Functionality**:
+- Integrate the above three modules
+- Provide unified command processing interface
+- Support for obtaining available actions and AI lists
+- Validate action and AI combination validity
 
-## 重构的动作类
+## Refactored Action Classes
 
 ### ExecuteCustomCommandAction
-- 使用新的模块化架构
-- 代码量从115行减少到25行
-- 功能保持不变，但结构更清晰
-- 现在从 `executor` 包导入 `CommandProcessor`，体现了模块间的清晰依赖关系
+- Uses new modular architecture
+- Code reduced from 115 lines to 25 lines
+- Functionality unchanged, but structure clearer
+- Now imports `CommandProcessor` from `executor` package, reflecting clear module dependencies
 
-## 模块化架构的优势
+## Advantages of Modular Architecture
 
-### 1. 职责分离
-- **配置模块**: 负责配置管理
-- **信息读取模块**: 负责上下文信息获取
-- **命令执行模块**: 负责命令执行
-- **命令处理器**: 负责模块协调
+### 1. Responsibility Separation
+- **Configuration Module**: Responsible for configuration management
+- **Information Reading Module**: Responsible for context information retrieval
+- **Command Execution Module**: Responsible for command execution
+- **Command Processor**: Responsible for module coordination
 
-### 2. 可维护性
-- 代码结构清晰，易于理解
-- 每个模块职责单一，修改影响范围小
-- 代码重复度低
+### 2. Maintainability
+- Clear code structure, easy to understand
+- Each module has single responsibility, small modification impact scope
+- Low code duplication
 
-### 3. 可扩展性
-- 新增功能只需修改相应模块
-- 新增AI或动作只需修改配置
-- 模块间接口清晰，易于扩展
+### 3. Extensibility
+- New functionality only requires modifying corresponding modules
+- Adding new AI or actions only requires configuration modification
+- Clear interfaces between modules, easy to extend
 
-### 4. 可测试性
-- 各模块可以独立测试
-- 模块间依赖关系清晰
-- 便于编写单元测试
+### 4. Testability
+- Each module can be tested independently
+- Clear dependencies between modules
+- Easy to write unit tests
 
-### 5. 代码复用
-- 模块间可以灵活组合使用
-- 避免重复代码
-- 提高开发效率
+### 5. Code Reuse
+- Flexible combination between modules
+- Avoid duplicate code
+- Improve development efficiency
 
-## 使用示例
+## Usage Examples
 
-### 基本用法
+### Basic Usage
 ```kotlin
 val commandProcessor = CommandProcessor()
 val result = commandProcessor.processCommandWithDefaultAI(event, "switch2ai")
 ```
 
-### 指定AI执行
+### Execute with Specified AI
 ```kotlin
 val commandProcessor = CommandProcessor()
 val result = commandProcessor.processCommand(event, "generateUnitTest", "cursor")
 ```
 
-### 获取可用配置
+### Get Available Configuration
 ```kotlin
 val commandProcessor = CommandProcessor()
 val actions = commandProcessor.getAvailableActions(project)
 val ais = commandProcessor.getAvailableAIs(project)
 ```
 
-## 下一步计划
+## Next Steps
 
-根据 `promptWord.md` 的规划，下一步将进入第三阶段：
-- 实现基于配置的AI、动作注册和快捷键绑定
-- 支持配置的持久化和动态更新
-- 添加右键菜单支持
-- 完善配置文件的YAML支持
-- 处理快捷键冲突和配置变更提示
+According to `promptWord.md` planning, the next step will enter Phase 3:
+- Implement configuration-based AI, action registration and shortcut binding
+- Support configuration persistence and dynamic updates
+- Add right-click menu support
+- Complete YAML support for configuration files
+- Handle shortcut conflicts and configuration change prompts
 
-## 第三阶段更新说明
+## Phase 3 Update Notes
 
-第三阶段已经完成，并进行了重要的架构优化：
+Phase 3 has been completed with important architectural optimizations:
 
-### **架构优化成果**
-- **抽象父类设计**: 创建了 `AbstractDynamicActionRegistry<T>` 抽象父类
-- **代码复用**: 通过继承实现了显著的代码复用
-- **逻辑简化**: 两个动态注册器的代码量大幅减少
-- **统一配置**: 将配置管理功能合并到 `AppSettingsState` 中
+### **Architectural Optimization Results**
+- **Abstract Parent Class Design**: Created `AbstractDynamicActionRegistry<T>` abstract parent class
+- **Code Reuse**: Achieved significant code reuse through inheritance
+- **Logic Simplification**: Two dynamic registries' code volume significantly reduced
+- **Unified Configuration**: Merged configuration management functionality into `AppSettingsState`
 
-### **技术改进**
-- **数据类合并**: 使用统一的 `AIConfigData` 和 `ActionConfigData` 类型
-- **配置同步**: 实现了配置变更的自动同步机制
-- **性能优化**: 避免了不必要的对象创建和类型转换
-- **扩展性提升**: 新增动态注册器变得非常简单
+### **Technical Improvements**
+- **Data Class Merging**: Used unified `AIConfigData` and `ActionConfigData` types
+- **Configuration Synchronization**: Implemented automatic synchronization mechanism for configuration changes
+- **Performance Optimization**: Avoided unnecessary object creation and type conversion
+- **Extensibility Enhancement**: Adding new dynamic registries became very simple
 
-## 总结
+## Summary
 
-第二阶段成功完成了模块化重构，将原有的单体代码拆分为职责明确的模块，提高了代码质量和可维护性。所有功能保持不变，但代码结构更加清晰，为后续的功能扩展奠定了良好的基础。
+Phase 2 successfully completed modular refactoring, splitting the original monolithic code into modules with clear responsibilities, improving code quality and maintainability. All functionality remains unchanged, but the code structure is clearer, laying a good foundation for subsequent functionality extensions.
 
-## 微调说明
+## Fine-tuning Notes
 
-根据最新的代码调整，主要变化包括：
-1. **包结构调整**: 将执行相关的模块移动到 `executor` 包中，使包结构更加清晰
-2. **AI配置简化**: `AIConfig` 类移除了 `commands` 字段，专注于AI的基本信息
-3. **依赖关系优化**: 动作类现在从 `executor` 包导入依赖，体现了模块间的清晰依赖关系
-4. **配置加载增强**: 配置加载注释更新为支持 YAML 或其他格式，为第三阶段的配置持久化做准备
+According to the latest code adjustments, main changes include:
+1. **Package Structure Adjustment**: Moved execution-related modules to `executor` package, making package structure clearer
+2. **AI Configuration Simplification**: `AIConfig` class removed `commands` field, focusing on AI basic information
+3. **Dependency Relationship Optimization**: Action classes now import dependencies from `executor` package, reflecting clear module dependencies
+4. **Configuration Loading Enhancement**: Configuration loading comments updated to support YAML or other formats, preparing for Phase 3 configuration persistence
 
-这些微调进一步优化了模块化架构，为第三阶段的开发奠定了更加坚实的基础。
+These fine-tunings further optimize the modular architecture, laying a more solid foundation for Phase 3 development.

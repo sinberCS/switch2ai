@@ -9,7 +9,6 @@
 ## 🔍 Introduction
 switch2ai - A JetBrains IDE plugin enabling seamless collaboration between JetBrains IDEs and various AI agents (Cursor, Qoder, Claude code etc.). Key features include instant switching between different AI editors, rapid AI prompt input with AI selection, and fully configurable custom commands with variable support for enhanced AI collaboration workflow.
 
-
 ## 🌟 Features
 
 - 🚀 **Instant AI Editor Switching**
@@ -21,18 +20,21 @@ switch2ai - A JetBrains IDE plugin enabling seamless collaboration between JetBr
     - Quick AI prompt input with AI selection dropdown
     - Support for multiple AI agents (Cursor, Qoder, Claude code, etc.)
     - Intelligent context-aware prompt processing
+    - Support for shortcut commands like `$test`, `$refactor`, `$explain`
 
 - ⌨️ **Convenient Shortcut Support**
     - macOS:
-        - `Option+Shift+K` - Open AI prompt input dialog
+        - `Option+Shift+K` - Open AI prompt input popup
         - `Option+Shift+P` - Open project in AI Editor
         - `Option+Shift+O` - Open current file in AI Editor
-        - `Option+Shift+C` - Execute custom command
+        - `Option+Shift+U` - Open current file in Qoder
+        - `Option+Shift+I` - Open project in Qoder
     - Windows:
-        - `Alt+Shift+K` - Open AI prompt input dialog
+        - `Alt+Shift+K` - Open AI prompt input popup
         - `Alt+Shift+P` - Open project in AI Editor
         - `Alt+Shift+O` - Open current file in AI Editor
-        - `Alt+Shift+C` - Execute custom command
+        - `Alt+Shift+U` - Open current file in Qoder
+        - `Alt+Shift+I` - Open project in Qoder
 
 - 🔧 **Multiple Access Methods**
     - Keyboard shortcuts
@@ -44,6 +46,7 @@ switch2ai - A JetBrains IDE plugin enabling seamless collaboration between JetBr
     - Variables: `$filePath`, `$projectPath`, `$line`, `$column`, `$selectedText`, `$prompt`
     - Support for shortcut commands like `$test`, `$refactor`, `$explain`
     - Completely customizable command templates
+    - Dynamic command registration and management
 
 ## 🛠️ Installation Guide
 
@@ -69,6 +72,7 @@ switch2ai - A JetBrains IDE plugin enabling seamless collaboration between JetBr
     - Select AI agent from dropdown (Cursor, Qoder, Claude code, etc.)
     - Input prompts with intelligent context awareness
     - Support for shortcut commands like `$test`, `$refactor`, `$explain`
+    - Popup appears at cursor position for quick access
 
 #### Open Project in AI Editor
 - Shortcuts:
@@ -84,26 +88,54 @@ switch2ai - A JetBrains IDE plugin enabling seamless collaboration between JetBr
 - Context Menu: Right-click in editor → `Open File In AI Editor`
 - Tools Menu: `Tools` → `Open File In AI Editor`
 
-#### Execute Custom Command
+#### Open in Qoder
 - Shortcuts:
-    - macOS: `Option+Shift+C`
-    - Windows: `Alt+Shift+C`
-- Context Menu: Right-click in editor → `Execute Custom Command`
-- Tools Menu: `Tools` → `Execute Custom Command`
+    - macOS: `Option+Shift+U` (file), `Option+Shift+I` (project)
+    - Windows: `Alt+Shift+U` (file), `Alt+Shift+I` (project)
+- Context Menu: Right-click in editor → `Open In Qoder`
+- Tools Menu: `Tools` → `Open In Qoder`
 
 ### Configuration
 - In `Settings/Preferences` → `Tools` → `switch2ai`:
-    - Configure AI agents (Cursor, Qoder, Claude code, etc.)
-    - Set AI agent executable paths and display names
-    - Configure custom commands with comprehensive variable support
-    - Set up shortcut commands like `$test`, `$refactor`, `$explain`
+    - **AI Configuration Tab**: Configure AI agents (Cursor, Qoder, Claude code, etc.)
+        - Set AI agent names, display names, command templates, and descriptions
+        - Configure command templates with variable support
+    - **Custom Commands Tab**: Configure custom commands with comprehensive variable support
+        - Set command IDs, shortcuts, command templates, and descriptions
+        - Support for variables: `$filePath`, `$projectPath`, `$line`, `$column`, `$selectedText`
+    - **Shortcut Commands Tab**: Set up shortcut commands like `$test`, `$refactor`, `$explain`
+        - Define short commands that expand to full prompts
+        - Example: `$test` expands to "Please write unit tests for this function..."
     - Customize shortcuts through Keymap settings
+
+### Default Configuration
+The plugin comes with pre-configured:
+- **AI Agents**: Claude Code, iflow
+- **Shortcut Commands**: `$test`, `$refactor`, `$explain`, `$optimize`, `$debug`, `$doc`
+- **Custom Commands**: Jump to Cursor/Qoder with file and project support
 
 ### Requirements
 - Any AI editor installed (Cursor, Qoder, Claude code, etc.)
 - Compatible with all JetBrains IDEs (version 2022.3 and above)
+- Terminal plugin enabled for integrated terminal execution
 
 ## 🧑‍💻 Developer Guide
+
+### Project Structure
+```
+src/main/kotlin/com/github/switch2ai/
+├── actions/
+│   ├── processor/          # Command execution logic
+│   └── registry/           # Dynamic action registration
+├── config/
+│   ├── model/              # Configuration data models
+│   └── settings/           # Settings UI and state management
+├── core/
+│   └── startup/            # Project startup initialization
+├── ui/
+│   └── dialog/             # User interface components
+└── utils/                  # Utility classes
+```
 
 ### Build Project
 ```bash
@@ -115,6 +147,13 @@ cd switch2ai
 ./gradlew buildPlugin  
 # Plugin package will be generated in build/distributions/ directory
 ```
+
+### Key Components
+- **DynamicActionRegistry**: Manages dynamic registration of custom commands and actions
+- **CommandProcessor**: Handles command execution and AI prompt processing
+- **AppSettingsConfigurable**: Provides comprehensive configuration interface
+- **PromptInputPopup**: Quick prompt input popup at cursor position
+- **ShortcutCommandReplacer**: Processes shortcut command expansions
 
 ### Contributing
 1. Fork this repository
@@ -136,3 +175,12 @@ Modify in `Settings` → `Keymap` → `Plugins` → `switch2ai`
 
 ### 4. How to configure custom commands?
 Go to `Settings` → `Tools` → `switch2ai` and configure custom commands with variable support
+
+### 5. How do shortcut commands work?
+Shortcut commands like `$test` automatically expand to full prompts when you type them in the AI prompt input
+
+### 6. Can I add my own AI agents?
+Yes, you can add custom AI agents in the AI Configuration tab with custom command templates and variable support
+
+### 7. How does the plugin handle cursor positioning?
+The plugin automatically captures the current file path, line, and column, then passes this information to AI editors for precise positioning

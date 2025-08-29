@@ -1,76 +1,76 @@
-# 第三阶段：基于配置的AI、动作注册和快捷键
+# Phase 3: Configuration-Based AI, Action Registration and Shortcuts
 
-## 概述
-第三阶段成功实现了"基于配置的AI、动作注册和快捷键"功能，使插件能够根据配置动态注册动作、快捷键和右键菜单，支持配置的持久化和动态更新。通过架构优化，实现了更好的代码复用和逻辑简化。
+## Overview
+Phase 3 successfully implemented "Configuration-Based AI, Action Registration and Shortcuts" functionality, enabling the plugin to dynamically register actions, shortcuts, and context menus based on configuration, supporting configuration persistence and dynamic updates. Through architectural optimization, better code reuse and logic simplification were achieved.
 
-## 已实现的核心功能
+## Implemented Core Features
 
-### 1. 抽象动态动作注册器 (AbstractDynamicActionRegistry)
-**文件**: `src/main/kotlin/com/github/switch2ai/actions/AbstractDynamicActionRegistry.kt`
+### 1. Abstract Dynamic Action Registry (AbstractDynamicActionRegistry)
+**File**: `src/main/kotlin/com/github/switch2ai/actions/AbstractDynamicActionRegistry.kt`
 
-**功能**:
-- 提供动态动作注册的通用逻辑
-- 支持快捷键注册、冲突检测、动作管理等
-- 使用泛型设计支持不同类型的配置数据
-- 实现代码复用和逻辑简化
+**Functionality**:
+- Provides common logic for dynamic action registration
+- Supports shortcut registration, conflict detection, action management, etc.
+- Uses generic design to support different types of configuration data
+- Implements code reuse and logic simplification
 
-**核心特性**:
-- **泛型设计**: 使用泛型 `T` 支持不同类型的配置数据
-- **通用逻辑**: 包含快捷键注册、冲突检测、动作管理等通用功能
-- **抽象接口**: 定义子类必须实现的接口，确保一致性
-- **代码复用**: 消除重复代码，提高维护性
+**Core Features**:
+- **Generic Design**: Uses generic `T` to support different types of configuration data
+- **Common Logic**: Contains common functionality like shortcut registration, conflict detection, action management
+- **Abstract Interface**: Defines interfaces that subclasses must implement, ensuring consistency
+- **Code Reuse**: Eliminates duplicate code, improves maintainability
 
-### 2. 动态动作注册器 (DynamicActionRegistry)
-**文件**: `src/main/kotlin/com/github/switch2ai/actions/DynamicActionRegistry.kt`
+### 2. Dynamic Action Registry (DynamicActionRegistry)
+**File**: `src/main/kotlin/com/github/switch2ai/actions/DynamicActionRegistry.kt`
 
-**功能**:
-- 继承自 `AbstractDynamicActionRegistry`，专注于动作注册
-- 根据配置动态创建和注册动作
-- 自动注册快捷键绑定
-- 在编辑器右键菜单中添加动作
+**Functionality**:
+- Inherits from `AbstractDynamicActionRegistry`, focusing on action registration
+- Dynamically creates and registers actions based on configuration
+- Automatically registers shortcut bindings
+- Adds actions to editor context menu
 
-**核心特性**:
-- **继承架构**: 继承抽象父类，复用通用逻辑
-- **代码简化**: 从 380 行减少到约 200 行
-- **职责明确**: 专注于动作注册和右键菜单管理
-- **配置驱动**: 从 `AppSettingsState` 获取配置
+**Core Features**:
+- **Inheritance Architecture**: Inherits from abstract parent class, reusing common logic
+- **Code Simplification**: Reduced from 380 lines to about 200 lines
+- **Clear Responsibilities**: Focuses on action registration and context menu management
+- **Configuration Driven**: Gets configuration from `AppSettingsState`
 
-### 3. 动态AI切换动作注册器 (DynamicSwitchAIActionRegistry)
-**文件**: `src/main/kotlin/com/github/switch2ai/actions/DynamicSwitchAIActionRegistry.kt`
+### 3. Dynamic AI Switch Action Registry (DynamicSwitchAIActionRegistry)
+**File**: `src/main/kotlin/com/github/switch2ai/actions/DynamicSwitchAIActionRegistry.kt`
 
-**功能**:
-- 继承自 `AbstractDynamicActionRegistry`，专注于AI切换动作
-- 根据配置动态创建AI切换动作
-- 支持AI切换的快捷键注册
-- 与 `AIStatusBarWidget` 集成
+**Functionality**:
+- Inherits from `AbstractDynamicActionRegistry`, focusing on AI switch actions
+- Dynamically creates AI switch actions based on configuration
+- Supports AI switch shortcut registration
+- Integrates with `AIStatusBarWidget`
 
-**核心特性**:
-- **继承架构**: 继承抽象父类，复用通用逻辑
-- **代码简化**: 从 236 行减少到约 100 行
-- **AI切换**: 支持动态AI切换动作注册
-- **状态同步**: 与状态栏组件保持同步
+**Core Features**:
+- **Inheritance Architecture**: Inherits from abstract parent class, reusing common logic
+- **Code Simplification**: Reduced from 236 lines to about 100 lines
+- **AI Switching**: Supports dynamic AI switch action registration
+- **State Synchronization**: Maintains synchronization with status bar components
 
-### 4. 统一配置管理 (AppSettingsState)
-**文件**: `src/main/kotlin/com/github/switch2ai/settings/AppSettingsState.kt`
+### 4. Unified Configuration Management (AppSettingsState)
+**File**: `src/main/kotlin/com/github/switch2ai/settings/AppSettingsState.kt`
 
-**功能**:
-- 合并了原有的 `ConfigurationManager` 功能
-- 管理AI列表和动作配置
-- 提供配置持久化和动态更新
-- 支持配置变更监听和重启检测
+**Functionality**:
+- Merged original `ConfigurationManager` functionality
+- Manages AI list and action configuration
+- Provides configuration persistence and dynamic updates
+- Supports configuration change listening and restart detection
 
-**核心特性**:
-- **统一管理**: 所有配置逻辑集中在一个地方
-- **数据类合并**: 使用统一的 `AIConfigData` 和 `ActionConfigData`
-- **持久化**: 利用 IntelliJ 的 `PersistentStateComponent` 机制
-- **配置同步**: 支持配置的实时更新和同步
+**Core Features**:
+- **Unified Management**: All configuration logic centralized in one place
+- **Data Class Merging**: Uses unified `AIConfigData` and `ActionConfigData`
+- **Persistence**: Leverages IntelliJ's `PersistentStateComponent` mechanism
+- **Configuration Synchronization**: Supports real-time configuration updates and synchronization
 
-## 技术架构
+## Technical Architecture
 
-### 架构优化
-通过抽象父类和统一配置管理，实现了更好的代码复用和逻辑简化：
+### Architectural Optimization
+Through abstract parent classes and unified configuration management, better code reuse and logic simplification were achieved:
 
-#### **抽象继承架构**
+#### **Abstract Inheritance Architecture**
 ```
 AbstractDynamicActionRegistry<T>
     ↓                    ↓
@@ -79,170 +79,169 @@ DynamicActionRegistry  DynamicSwitchAIActionRegistry
 ActionManager          AIStatusBarWidget
 ```
 
-#### **配置管理架构**
+#### **Configuration Management Architecture**
 ```
-AppSettingsState (统一配置管理)
+AppSettingsState (Unified Configuration Management)
     ↓
-PersistentStateComponent (持久化)
+PersistentStateComponent (Persistence)
     ↓
 DynamicActionRegistry + DynamicSwitchAIActionRegistry
 ```
 
-### 模块依赖关系
+### Module Dependencies
 ```
-AppSettingsState (统一配置源)
+AppSettingsState (Unified Configuration Source)
     ↓
-AbstractDynamicActionRegistry (抽象父类)
+AbstractDynamicActionRegistry (Abstract Parent Class)
     ↓                    ↓
 DynamicActionRegistry  DynamicSwitchAIActionRegistry
     ↓                    ↓
 ActionManager          AIStatusBarWidget
 ```
 
-## 配置系统
+## Configuration System
 
-### 统一配置管理
-通过 `AppSettingsState` 统一管理所有配置，实现了更好的数据一致性和维护性：
+### Unified Configuration Management
+Through `AppSettingsState`, all configurations are unified managed, achieving better data consistency and maintainability:
 
-#### **配置结构**
+#### **Configuration Structure**
 ```kotlin
 data class PluginConfig(
-    val aiList: Map<String, AIConfigData>,      // AI配置列表
-    val actions: Map<String, ActionConfigData>  // 动作配置列表
+    val aiList: Map<String, AIConfigData>,      // AI configuration list
+    val actions: Map<String, ActionConfigData>  // Action configuration list
 )
 
 data class AIConfigData(
-    var name: String = "",        // AI名称
-    var shortcut: String = ""     // AI切换快捷键
+    var name: String = "",        // AI name
+    var shortcut: String = ""     // AI switch shortcut
 )
 
 data class ActionConfigData(
-    var name: String = "",                    // 动作名称
-    var description: String = "",             // 动作描述
-    var shortCut: String = "",                // 动作快捷键
-    var commands: MutableMap<String, String> = mutableMapOf()  // AI命令映射
+    var name: String = "",                    // Action name
+    var description: String = "",             // Action description
+    var shortCut: String = "",                // Action shortcut
+    var commands: MutableMap<String, String> = mutableMapOf()  // AI command mapping
 )
 ```
 
-#### **数据类合并优化**
-- **统一类型**: 使用一套可变的数据类，避免重复定义
-- **简化转换**: 不再需要类型转换，直接使用统一的数据类型
-- **性能提升**: 避免了不必要的对象创建和复制
+#### **Data Class Merging Optimization**
+- **Unified Types**: Uses one set of mutable data classes, avoiding duplicate definitions
+- **Simplified Conversion**: No type conversion needed, directly uses unified data types
+- **Performance Improvement**: Avoids unnecessary object creation and copying
 
-### 配置持久化
-- 使用IntelliJ的`PersistentStateComponent`接口
-- 自动保存到`switch2aiSettings.xml`文件
-- 支持配置的热更新和冷启动
-- 配置变更时自动同步到所有相关组件
+### Configuration Persistence
+- Uses IntelliJ's `PersistentStateComponent` interface
+- Automatically saves to `switch2aiSettings.xml` file
+- Supports hot updates and cold start of configuration
+- Automatically synchronizes configuration changes to all related components
 
-## 快捷键系统
+## Shortcut System
 
-### 支持的快捷键格式
-- `option+shift+o`: 打开文件到AI
-- `option+shift+t`: 生成单元测试
-- `option+shift+1/2/3`: 切换AI
+### Supported Shortcut Formats
+- `option+shift+o`: Open file in AI
+- `option+shift+t`: Generate unit tests
+- `option+shift+1/2/3`: Switch AI
 
-## 右键菜单集成
+## Context Menu Integration
 
-### 支持的菜单位置
-- **编辑器右键菜单**: 在代码编辑器中右键
-- **项目视图右键菜单**: 在项目文件树中右键
-- **工具菜单**: 在主菜单栏的工具菜单中
+### Supported Menu Locations
+- **Editor Context Menu**: Right-click in code editor
+- **Project View Context Menu**: Right-click in project file tree
+- **Tools Menu**: In main menu bar tools menu
 
-### 动态菜单项
-- 根据配置自动生成菜单项
-- 支持分隔符和分组
-- 自动更新菜单状态
+### Dynamic Menu Items
+- Automatically generates menu items based on configuration
+- Supports separators and grouping
+- Automatically updates menu state
 
-## 使用示例
+## Usage Examples
 
-### 基本配置
+### Basic Configuration
 ```kotlin
-// 获取统一配置管理器
+// Get unified configuration manager
 val appSettings = AppSettingsState.getInstance()
 
-// 获取当前配置
+// Get current configuration
 val currentConfig = appSettings.getCurrentConfig()
 
-// 更新配置
+// Update configuration
 val newConfig = createNewConfig()
 appSettings.updateConfig(newConfig, project)
 
-// 监听配置变更
+// Listen for configuration changes
 appSettings.addConfigChangeListener { newConfig ->
-    println("配置已更新: $newConfig")
+    println("Configuration updated: $newConfig")
 }
 ```
 
-### 动态动作注册
+### Dynamic Action Registration
 ```kotlin
-// 获取动态注册器
+// Get dynamic registry
 val dynamicRegistry = DynamicActionRegistry.getInstance(project)
 
-// 注册所有动作（自动从AppSettingsState获取配置）
+// Register all actions (automatically gets configuration from AppSettingsState)
 dynamicRegistry.registerAllActions(project, appSettings.getCurrentConfig())
 
-// 获取AI切换注册器
+// Get AI switch registry
 val aiSwitchRegistry = DynamicSwitchAIActionRegistry.getInstance(project)
 
-// 注册AI切换动作
+// Register AI switch actions
 aiSwitchRegistry.registerAllActions(project, appSettings.getCurrentConfig())
 ```
 
-### 抽象父类使用
+### Abstract Parent Class Usage
 ```kotlin
-// 创建自定义的动态注册器
+// Create custom dynamic registry
 class CustomActionRegistry : AbstractDynamicActionRegistry<CustomConfig>() {
     override fun getCurrentConfig(): Map<String, CustomConfig>? = currentConfig
     override fun setCurrentConfig(config: Map<String, CustomConfig>) { currentConfig = config }
-    override fun isConfigSame(newConfig: Map<String, CustomConfig>): Boolean = /* 实现逻辑 */
-    override fun deepCopyConfig(config: Map<String, CustomConfig>): Map<String, CustomConfig> = /* 实现逻辑 */
-    override fun registerAction(project: Project, key: String, config: CustomConfig) { /* 实现逻辑 */ }
+    override fun isConfigSame(newConfig: Map<String, CustomConfig>): Boolean = /* implementation logic */
+    override fun deepCopyConfig(config: Map<String, CustomConfig>): Map<String, CustomConfig> = /* implementation logic */
+    override fun registerAction(project: Project, key: String, config: CustomConfig) { /* implementation logic */ }
     override fun getActionIdPrefix(): String = "custom."
 }
 ```
 
+## Error Handling
 
-## 错误处理
+### Exception Handling
+- Comprehensive try-catch blocks
+- Detailed error logging
+- User-friendly error prompts
 
-### 异常捕获
-- 完善的try-catch块
-- 详细的错误日志
-- 用户友好的错误提示
+### Recovery Mechanisms
+- Uses default configuration when configuration loading fails
+- Graceful degradation when action registration fails
 
-### 恢复机制
-- 配置加载失败时使用默认配置
-- 动作注册失败时的降级处理
+## Next Steps
 
-## 下一步计划
+According to project planning, next steps could include:
+1. **YAML Configuration Support**: Implement complete YAML configuration file loading
+2. **Configuration Import/Export**: Support configuration backup and restoration
+3. **User Interface Optimization**: Improve configuration interface user experience
+4. **Performance Monitoring**: Add performance metrics and monitoring
 
-根据项目规划，下一步可以考虑：
-1. **YAML配置支持**: 实现完整的YAML配置文件加载
-2. **配置导入/导出**: 支持配置的备份和恢复
-3. **用户界面优化**: 改进配置界面的用户体验
-4. **性能监控**: 添加性能指标和监控
+## Summary
 
-## 总结
+Phase 3 successfully implemented a configuration-based dynamic action registration and shortcut binding system. Through architectural optimization, better code reuse and logic simplification were achieved, giving the plugin:
 
-第三阶段成功实现了基于配置的动态动作注册和快捷键绑定系统，通过架构优化实现了更好的代码复用和逻辑简化，使插件具备了：
+### **Architectural Optimization Results**
+- **Code Reuse**: Reduced about 300 lines of duplicate code through abstract parent classes
+- **Logic Unification**: All dynamic registries use the same core logic
+- **Maintenance Simplification**: Common logic modifications only need to be made in parent classes
+- **Extension Convenience**: Adding new registries becomes very simple
 
-### **架构优化成果**
-- **代码复用**: 通过抽象父类减少了约 300 行重复代码
-- **逻辑统一**: 所有动态注册器使用相同的核心逻辑
-- **维护简化**: 通用逻辑的修改只需在父类中进行
-- **扩展便利**: 新增注册器变得非常简单
+### **Functional Features**
+- **High Configurability**: Supports flexible configuration definitions
+- **Dynamic Update Capability**: Configuration changes can take effect in real-time
+- **User Friendliness**: Clear prompts and error handling
+- **System Integration**: Deep integration with IntelliJ platform
+- **Configuration Synchronization**: All components automatically synchronize configuration changes
 
-### **功能特性**
-- **高度可配置性**: 支持灵活的配置定义
-- **动态更新能力**: 配置变更可以实时生效
-- **用户友好性**: 清晰的提示和错误处理
-- **系统集成性**: 与IntelliJ平台深度集成
-- **配置同步**: 所有组件自动同步配置变更
+### **Technical Highlights**
+- **Abstract Inheritance**: Uses generic abstract parent classes for code reuse
+- **Unified Configuration**: Unified management of all configurations through `AppSettingsState`
+- **Data Class Merging**: Uses unified data types to avoid duplicate definitions
+- **Automatic Synchronization**: Automatically synchronizes configuration changes to all related components
 
-### **技术亮点**
-- **抽象继承**: 使用泛型抽象父类实现代码复用
-- **统一配置**: 通过 `AppSettingsState` 统一管理所有配置
-- **数据类合并**: 使用统一的数据类型避免重复定义
-- **自动同步**: 配置变更时自动同步到所有相关组件
-
-这些功能为插件的后续扩展和维护奠定了坚实的基础，使插件能够更好地适应不同用户的需求和系统环境。通过架构优化，代码质量得到了显著提升，为未来的功能扩展提供了良好的基础。
+These features provide a solid foundation for the plugin's subsequent extension and maintenance, enabling the plugin to better adapt to different user needs and system environments. Through architectural optimization, code quality has been significantly improved, providing a good foundation for future functionality extensions.

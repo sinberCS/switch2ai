@@ -13,7 +13,7 @@ import javax.swing.*
 import javax.swing.table.DefaultTableModel
 
 /**
- * 应用设置配置界面
+ * Application Settings Configuration Interface
  */
 class AppSettingsConfigurable : Configurable {
     
@@ -30,34 +30,34 @@ class AppSettingsConfigurable : Configurable {
     override fun createComponent(): JComponent {
         mainPanel = JPanel(BorderLayout())
         
-        // 创建选项卡面板
+        // Create tabbed panel
         val tabbedPane = JTabbedPane()
         
-        // AI配置选项卡
-        tabbedPane.addTab("AI配置", createAIConfigPanel())
+        // AI Configuration tab
+        tabbedPane.addTab("AI Configuration", createAIConfigPanel())
         
-        // 自定义命令选项卡
-        tabbedPane.addTab("自定义命令", createCustomCommandPanel())
+        // Custom Commands tab
+        tabbedPane.addTab("Custom Commands", createCustomCommandPanel())
         
-        // 快捷命令选项卡
-        tabbedPane.addTab("快捷命令", createShortcutCommandPanel())
+        // Shortcut Commands tab
+        tabbedPane.addTab("Shortcut Commands", createShortcutCommandPanel())
         
         mainPanel!!.add(tabbedPane, BorderLayout.CENTER)
         
-        // 加载当前配置
+        // Load current configuration
         loadCurrentConfig()
         
         return mainPanel!!
     }
     
     /**
-     * 创建AI配置面板
+     * Create AI Configuration Panel
      */
     private fun createAIConfigPanel(): JComponent {
         val panel = JPanel(BorderLayout())
         panel.border = JBUI.Borders.empty(10)
         
-        // 当前AI选择
+        // Current AI Selection
         val topPanel = JPanel(GridBagLayout())
         val gbc = GridBagConstraints()
         
@@ -65,7 +65,7 @@ class AppSettingsConfigurable : Configurable {
         gbc.gridy = 0
         gbc.anchor = GridBagConstraints.WEST
         gbc.insets = JBUI.insets(0, 0, 10, 10)
-        topPanel.add(JBLabel("当前AI:"), gbc)
+        topPanel.add(JBLabel("Current AI:"), gbc)
         
         gbc.gridx = 1
         gbc.fill = GridBagConstraints.HORIZONTAL
@@ -75,10 +75,10 @@ class AppSettingsConfigurable : Configurable {
         
         panel.add(topPanel, BorderLayout.NORTH)
         
-        // AI配置表格
+        // AI Configuration Table
         val tableModel = object : DefaultTableModel() {
             init {
-                setColumnIdentifiers(arrayOf("名称", "显示名称", "命令模板", "描述"))
+                setColumnIdentifiers(arrayOf("Name", "Display Name", "Command Template", "Description"))
             }
             
             override fun getColumnClass(columnIndex: Int): Class<*> {
@@ -86,7 +86,7 @@ class AppSettingsConfigurable : Configurable {
             }
             
             override fun isCellEditable(row: Int, column: Int): Boolean {
-                return true // 所有列都可编辑
+                return true // All columns are editable
             }
         }
         
@@ -96,11 +96,11 @@ class AppSettingsConfigurable : Configurable {
         val scrollPane = JScrollPane(aiConfigTable)
         panel.add(scrollPane, BorderLayout.CENTER)
         
-        // 按钮面板
+        // Button Panel
         val buttonPanel = JPanel()
-        val addButton = JButton("添加AI")
-        val removeButton = JButton("删除AI")
-        val resetButton = JButton("重置默认")
+        val addButton = JButton("Add AI")
+        val removeButton = JButton("Remove AI")
+        val resetButton = JButton("Reset Default")
         
         addButton.addActionListener { addAIConfig() }
         removeButton.addActionListener { removeAIConfig() }
@@ -116,16 +116,16 @@ class AppSettingsConfigurable : Configurable {
     }
     
     /**
-     * 创建自定义命令面板
+     * Create Custom Command Panel
      */
     private fun createCustomCommandPanel(): JComponent {
         val panel = JPanel(BorderLayout())
         panel.border = JBUI.Borders.empty(10)
         
-        // 自定义命令表格
+        // Custom Commands Table
         val tableModel = object : DefaultTableModel() {
             init {
-                setColumnIdentifiers(arrayOf("ID", "快捷键", "命令", "描述"))
+                setColumnIdentifiers(arrayOf("ID", "Shortcut", "Command", "Description"))
             }
             
             override fun getColumnClass(columnIndex: Int): Class<*> {
@@ -133,7 +133,7 @@ class AppSettingsConfigurable : Configurable {
             }
             
             override fun isCellEditable(row: Int, column: Int): Boolean {
-                return column != 0 // ID列不可编辑
+                return column != 0 // ID column is not editable
             }
         }
         
@@ -143,11 +143,11 @@ class AppSettingsConfigurable : Configurable {
         val scrollPane = JScrollPane(customCommandTable)
         panel.add(scrollPane, BorderLayout.CENTER)
         
-        // 按钮面板
+        // Button Panel
         val buttonPanel = JPanel()
-        val addButton = JButton("添加命令")
-        val removeButton = JButton("删除命令")
-        val resetButton = JButton("重置默认")
+        val addButton = JButton("Add Command")
+        val removeButton = JButton("Remove Command")
+        val resetButton = JButton("Reset Default")
         
         addButton.addActionListener { addCustomCommand() }
         removeButton.addActionListener { removeCustomCommand() }
@@ -163,23 +163,23 @@ class AppSettingsConfigurable : Configurable {
     }
     
     /**
-     * 创建快捷命令面板
+     * Create Shortcut Command Panel
      */
     private fun createShortcutCommandPanel(): JComponent {
         val panel = JPanel(BorderLayout())
         panel.border = JBUI.Borders.empty(10)
         
-        // 说明标签
+        // Information Label
         val infoLabel = JBLabel(
-            "<html>快捷命令允许您定义简短的命令替换为完整的提示词。<br>" +
-            "例如：\$test 将被替换为 \"请为这个函数编写单元测试...\"</html>"
+            "<html>Shortcut commands allow you to define short commands that replace complete prompts.<br>" +
+            "For example: \$test will be replaced with \"Please write unit tests for this function...\"</html>"
         )
         panel.add(infoLabel, BorderLayout.NORTH)
         
-        // 快捷命令表格
+        // Shortcut Commands Table
         val tableModel = object : DefaultTableModel() {
             init {
-                setColumnIdentifiers(arrayOf("快捷命令", "替换提示词"))
+                setColumnIdentifiers(arrayOf("Shortcut Command", "Replacement Prompt"))
             }
             
             override fun isCellEditable(row: Int, column: Int): Boolean = true
@@ -191,11 +191,11 @@ class AppSettingsConfigurable : Configurable {
         val scrollPane = JScrollPane(shortcutCommandTable)
         panel.add(scrollPane, BorderLayout.CENTER)
         
-        // 按钮面板
+        // Button Panel
         val buttonPanel = JPanel()
-        val addButton = JButton("添加快捷命令")
-        val removeButton = JButton("删除快捷命令")
-        val resetButton = JButton("重置默认")
+        val addButton = JButton("Add Shortcut Command")
+        val removeButton = JButton("Remove Shortcut Command")
+        val resetButton = JButton("Reset Default")
         
         addButton.addActionListener { addShortcutCommand() }
         removeButton.addActionListener { removeShortcutCommand() }
@@ -211,39 +211,39 @@ class AppSettingsConfigurable : Configurable {
     }
     
     /**
-     * 加载当前配置
+     * Load Current Configuration
      */
     private fun loadCurrentConfig() {
         val config = settingsState.getCurrentConfig()
         
-        // 加载AI配置
+        // Load AI Configuration
         loadAIConfig(config.promptConfiguration)
         
-        // 加载自定义命令配置
+        // Load Custom Command Configuration
         loadCustomCommandConfig(config.customCommands)
         
-        // 加载快捷命令配置
+        // Load Shortcut Command Configuration
         loadShortcutCommandConfig(config.promptConfiguration.shortcutCommands)
     }
     
     /**
-     * 加载AI配置
+     * Load AI Configuration
      */
     private fun loadAIConfig(promptConfig: PromptAIConfiguration) {
-        // 更新当前AI下拉框
+        // Update current AI dropdown
         val comboBoxModel = DefaultComboBoxModel<String>()
         promptConfig.customAIs.values.forEach { ai ->
             comboBoxModel.addElement(ai.displayName)
         }
         currentAIComboBox?.model = comboBoxModel
         
-        // 设置当前选中的AI
+        // Set currently selected AI
         val currentAI = promptConfig.getCurrentAI()
         if (currentAI != null) {
             currentAIComboBox?.selectedItem = currentAI.displayName
         }
         
-        // 更新AI配置表格
+        // Update AI Configuration Table
         val tableModel = aiConfigTable?.model as DefaultTableModel
         tableModel.rowCount = 0
         
@@ -258,7 +258,7 @@ class AppSettingsConfigurable : Configurable {
     }
     
     /**
-     * 加载自定义命令配置
+     * Load Custom Command Configuration
      */
     private fun loadCustomCommandConfig(commands: Map<String, CustomCommand>) {
         val tableModel = customCommandTable?.model as DefaultTableModel
@@ -275,7 +275,7 @@ class AppSettingsConfigurable : Configurable {
     }
     
     /**
-     * 加载快捷命令配置
+     * Load Shortcut Command Configuration
      */
     private fun loadShortcutCommandConfig(shortcuts: Map<String, String>) {
         val tableModel = shortcutCommandTable?.model as DefaultTableModel
@@ -287,14 +287,14 @@ class AppSettingsConfigurable : Configurable {
     }
     
     /**
-     * 添加AI配置
+     * Add AI Configuration
      */
     private fun addAIConfig() {
-        val name = JOptionPane.showInputDialog(mainPanel, "请输入AI名称:")
+        val name = JOptionPane.showInputDialog(mainPanel, "Please enter AI name:")
         if (!name.isNullOrBlank()) {
-            val displayName = JOptionPane.showInputDialog(mainPanel, "请输入显示名称:", name)
-            val command = JOptionPane.showInputDialog(mainPanel, "请输入命令模板:")
-            val description = JOptionPane.showInputDialog(mainPanel, "请输入描述信息:")
+            val displayName = JOptionPane.showInputDialog(mainPanel, "Please enter display name:", name)
+            val command = JOptionPane.showInputDialog(mainPanel, "Please enter command template:")
+            val description = JOptionPane.showInputDialog(mainPanel, "Please enter description:")
             
             if (!displayName.isNullOrBlank() && !command.isNullOrBlank()) {
                 val tableModel = aiConfigTable?.model as DefaultTableModel
@@ -309,7 +309,7 @@ class AppSettingsConfigurable : Configurable {
     }
     
     /**
-     * 删除AI配置
+     * Remove AI Configuration
      */
     private fun removeAIConfig() {
         val selectedRow = aiConfigTable?.selectedRow ?: -1
@@ -320,7 +320,7 @@ class AppSettingsConfigurable : Configurable {
     }
     
     /**
-     * 重置AI配置
+     * Reset AI Configuration
      */
     private fun resetAIConfig() {
         val defaultConfig = PluginConfig.getDefaultConfig()
@@ -328,14 +328,14 @@ class AppSettingsConfigurable : Configurable {
     }
     
     /**
-     * 添加自定义命令
+     * Add Custom Command
      */
     private fun addCustomCommand() {
-        val id = JOptionPane.showInputDialog(mainPanel, "请输入命令ID:")
+        val id = JOptionPane.showInputDialog(mainPanel, "Please enter command ID:")
         if (!id.isNullOrBlank()) {
-            val shortcut = JOptionPane.showInputDialog(mainPanel, "请输入快捷键:")
-            val command = JOptionPane.showInputDialog(mainPanel, "请输入命令模板:")
-            val description = JOptionPane.showInputDialog(mainPanel, "请输入描述信息:")
+            val shortcut = JOptionPane.showInputDialog(mainPanel, "Please enter shortcut:")
+            val command = JOptionPane.showInputDialog(mainPanel, "Please enter command template:")
+            val description = JOptionPane.showInputDialog(mainPanel, "Please enter description:")
             
             if (!command.isNullOrBlank()) {
                 val tableModel = customCommandTable?.model as DefaultTableModel
@@ -350,7 +350,7 @@ class AppSettingsConfigurable : Configurable {
     }
     
     /**
-     * 删除自定义命令
+     * Remove Custom Command
      */
     private fun removeCustomCommand() {
         val selectedRow = customCommandTable?.selectedRow ?: -1
@@ -361,7 +361,7 @@ class AppSettingsConfigurable : Configurable {
     }
     
     /**
-     * 重置自定义命令
+     * Reset Custom Commands
      */
     private fun resetCustomCommands() {
         val defaultConfig = PluginConfig.getDefaultConfig()
@@ -369,12 +369,12 @@ class AppSettingsConfigurable : Configurable {
     }
     
     /**
-     * 添加快捷命令
+     * Add Shortcut Command
      */
     private fun addShortcutCommand() {
-        val shortcut = JOptionPane.showInputDialog(mainPanel, "请输入快捷命令 (例如: \$test):")
+        val shortcut = JOptionPane.showInputDialog(mainPanel, "Please enter shortcut command (e.g.: \$test):")
         if (!shortcut.isNullOrBlank()) {
-            val replacement = JOptionPane.showInputDialog(mainPanel, "请输入替换提示词:")
+            val replacement = JOptionPane.showInputDialog(mainPanel, "Please enter replacement prompt:")
             if (!replacement.isNullOrBlank()) {
                 val tableModel = shortcutCommandTable?.model as DefaultTableModel
                 tableModel.addRow(arrayOf(shortcut.trim(), replacement.trim()))
@@ -383,7 +383,7 @@ class AppSettingsConfigurable : Configurable {
     }
     
     /**
-     * 删除快捷命令
+     * Remove Shortcut Command
      */
     private fun removeShortcutCommand() {
         val selectedRow = shortcutCommandTable?.selectedRow ?: -1
@@ -394,7 +394,7 @@ class AppSettingsConfigurable : Configurable {
     }
     
     /**
-     * 重置快捷命令
+     * Reset Shortcut Commands
      */
     private fun resetShortcutCommands() {
         val defaultConfig = PluginConfig.getDefaultConfig()
@@ -405,7 +405,7 @@ class AppSettingsConfigurable : Configurable {
     override fun isModified(): Boolean {
         val currentUIConfig = buildConfigFromUI()
         val savedConfig = settingsState.getCurrentConfig()
-        // data class 的 equals 会进行深比较
+        // data class equals performs deep comparison
         return currentUIConfig != savedConfig
     }
     
@@ -419,18 +419,18 @@ class AppSettingsConfigurable : Configurable {
         } catch (e: Exception) {
             JOptionPane.showMessageDialog(
                 mainPanel,
-                "保存配置失败: ${e.message}",
-                "错误",
+                "Failed to save configuration: ${e.message}",
+                "Error",
                 JOptionPane.ERROR_MESSAGE
             )
         }
     }
     
     /**
-     * 从UI构建配置
+     * Build Configuration from UI
      */
     private fun buildConfigFromUI(): PluginConfig {
-        // 构建AI配置
+        // Build AI Configuration
         val aiConfigMap = mutableMapOf<String, AIConfig>()
         val aiTableModel = aiConfigTable?.model as DefaultTableModel
         
@@ -448,7 +448,7 @@ class AppSettingsConfigurable : Configurable {
             )
         }
         
-        // 构建快捷命令配置
+        // Build Shortcut Command Configuration
         val shortcutCommandMap = mutableMapOf<String, String>()
         val shortcutTableModel = shortcutCommandTable?.model as DefaultTableModel
         
@@ -458,7 +458,7 @@ class AppSettingsConfigurable : Configurable {
             shortcutCommandMap[shortcut] = replacement
         }
         
-        // 构建自定义命令配置
+        // Build Custom Command Configuration
         val customCommandMap = mutableMapOf<String, CustomCommand>()
         val commandTableModel = customCommandTable?.model as DefaultTableModel
         
@@ -476,7 +476,7 @@ class AppSettingsConfigurable : Configurable {
             )
         }
         
-        // 获取当前AI
+        // Get current AI
         val currentAI = currentAIComboBox?.selectedItem as? String
         val currentAIName = aiConfigMap.values.find { it.displayName == currentAI }?.name ?: "cursor"
         

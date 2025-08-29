@@ -123,17 +123,17 @@
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="com.github.switch2ai.config.settings.AppSettingsState"/>
         
-        <!-- 新动作注册器 -->
+        <!-- New Action Registry -->
         <projectService serviceImplementation="com.github.switch2ai.actions.registry.DynamicActionRegistry"/>
         
-        <!-- 新配置界面 -->
+        <!-- New Configuration Interface -->
         <applicationConfigurable
             parentId="tools"
             instance="com.github.switch2ai.config.settings.AppSettingsConfigurable"
             id="com.github.switch2ai.config.settings.AppSettingsConfigurable"
             displayName="Switch2AI"/>
         
-        <!-- 新项目启动监听器 -->
+        <!-- New Project Startup Listener -->
         <postStartupActivity implementation="com.github.switch2ai.core.startup.ProjectStartupListener"/>
     </extensions>
 
