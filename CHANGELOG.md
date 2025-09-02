@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.2] - 2024-08-30
+
+### Fixed
+- 完善了快捷键冲突处理机制：现在会先移除冲突的快捷键，然后再添加新的快捷键
+- 改进了快捷键注册流程，确保冲突解决的正确性
+
+### Added
+- 快捷键冲突移除机制：替换快捷键前先移除冲突的快捷键
+- 更详细的冲突解决提示信息
+
+### Changed
+- 版本号从0.1.1更新到0.1.2
+- 在plugin.xml中添加了GitHub地址链接
+- 更新了README中的下载链接和版本信息
+
 ## [0.1.1] - 2024-08-30
 
 ### Fixed
