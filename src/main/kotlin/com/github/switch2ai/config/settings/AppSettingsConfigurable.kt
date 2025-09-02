@@ -471,7 +471,8 @@ class AppSettingsConfigurable : Configurable {
             } else {
                 val message = "Shortcut conflicts detected:\n\n${conflicts.joinToString("\n")}\n\n" +
                         "You can resolve these conflicts in Settings → Keymap.\n\n" +
-                        "Note: When registering shortcuts, you will be prompted to choose whether to replace conflicting shortcuts."
+                        "Note: When registering shortcuts, you will be prompted to choose whether to replace conflicting shortcuts.\n" +
+                        "If you choose to replace, the conflicting shortcuts will be removed first, then the new shortcut will be added."
                 JOptionPane.showMessageDialog(
                     mainPanel,
                     message,

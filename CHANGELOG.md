@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 快捷键冲突检测功能：在设置界面添加了"Check Shortcut Conflicts"按钮
 - 快捷键冲突用户选择对话框：当检测到冲突时会弹出对话框让用户选择是否替换
 - 改进的快捷键注册逻辑：包含冲突检测和用户选择机制
+- 冲突快捷键移除机制：替换快捷键前先移除冲突的快捷键
 
 ### Changed
 - 版本号从0.1.0更新到0.1.1

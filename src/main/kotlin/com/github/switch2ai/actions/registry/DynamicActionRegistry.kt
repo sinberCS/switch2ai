@@ -161,9 +161,12 @@ class DynamicActionRegistry {
                         logger.info("User chose not to replace shortcut: $shortcutText")
                         return
                     }
+                    
+                    // Remove conflicting shortcuts first
+                    removeConflictingShortcuts(keymap, shortcut, conflicts)
                 }
                 
-                // Register shortcut (this will override existing shortcuts)
+                // Register shortcut
                 keymap.addShortcut(actionId, shortcut)
                 logger.info("Shortcut registered: $shortcutText -> $actionId")
                 
@@ -461,6 +464,7 @@ class DynamicActionRegistry {
                 $conflictList
                 
                 Do you want to replace the existing shortcut with the new one?
+                (The conflicting shortcuts will be removed first)
             """.trimIndent()
             
             val result = javax.swing.JOptionPane.showConfirmDialog(
@@ -477,6 +481,25 @@ class DynamicActionRegistry {
             logger.error("Failed to show shortcut conflict dialog", e)
             // Default to false (don't replace) if dialog fails
             false
+        }
+    }
+
+    /**
+     * Remove conflicting shortcuts from keymap
+     */
+    private fun removeConflictingShortcuts(
+        keymap: com.intellij.openapi.keymap.Keymap,
+        shortcut: com.intellij.openapi.actionSystem.KeyboardShortcut,
+        conflicts: List<ShortcutConflict>
+    ) {
+        try {
+            conflicts.forEach { conflict ->
+                // Remove the specific shortcut from the conflicting action
+                keymap.removeShortcut(conflict.actionId, shortcut)
+                logger.info("Removed conflicting shortcut from action: ${conflict.actionId}")
+            }
+        } catch (e: Exception) {
+            logger.error("Failed to remove conflicting shortcuts", e)
         }
     }
 
