@@ -142,7 +142,7 @@ cd switch2ai
 
 ### Shortcut Conflict Resolution
 - **Automatic Detection**: The plugin automatically detects shortcut conflicts during registration
-- **User Notifications**: Shows warning notifications when conflicts are detected
+- **User Choice Dialog**: Shows a dialog asking whether to replace conflicting shortcuts
 - **Manual Check**: Use "Check Shortcut Conflicts" button in settings to scan for conflicts
 - **Resolution**: Conflicts can be resolved in `Settings` → `Keymap` by reassigning shortcuts
 

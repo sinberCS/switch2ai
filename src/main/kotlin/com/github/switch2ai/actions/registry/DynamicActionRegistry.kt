@@ -133,7 +133,7 @@ class DynamicActionRegistry {
     }
 
     /**
-     * Register shortcut with conflict detection and handling
+     * Register shortcut with conflict detection and user choice
      */
     private fun registerShortcut(project: Project, actionId: String, shortcutText: String) {
         try {
@@ -154,8 +154,13 @@ class DynamicActionRegistry {
                         logger.warn("  - Conflicts with action: ${conflict.actionId} (${conflict.description})")
                     }
                     
-                    // Show user notification about conflicts
-                    showShortcutConflictNotification(project, shortcutText, conflicts)
+                    // Show user dialog to choose whether to replace
+                    val shouldReplace = showShortcutConflictDialog(project, shortcutText, conflicts)
+                    
+                    if (!shouldReplace) {
+                        logger.info("User chose not to replace shortcut: $shortcutText")
+                        return
+                    }
                 }
                 
                 // Register shortcut (this will override existing shortcuts)
@@ -440,14 +445,14 @@ class DynamicActionRegistry {
     }
 
     /**
-     * Show shortcut conflict notification to user
+     * Show shortcut conflict dialog to user and get their choice
      */
-    private fun showShortcutConflictNotification(
+    private fun showShortcutConflictDialog(
         project: Project,
         shortcutText: String,
         conflicts: List<ShortcutConflict>
-    ) {
-        try {
+    ): Boolean {
+        return try {
             val conflictList = conflicts.joinToString("\n") { "• ${it.description} (${it.actionId})" }
             val message = """
                 Shortcut conflict detected for: $shortcutText
@@ -455,22 +460,23 @@ class DynamicActionRegistry {
                 This shortcut is already used by:
                 $conflictList
                 
-                The new shortcut will override the existing ones.
-                You can resolve conflicts in Settings → Keymap.
+                Do you want to replace the existing shortcut with the new one?
             """.trimIndent()
             
-            // Show notification using IntelliJ's notification system
-            com.intellij.notification.NotificationGroupManager.getInstance()
-                .getNotificationGroup("Switch2AI")
-                .createNotification(
-                    "Shortcut Conflict",
-                    message,
-                    com.intellij.notification.NotificationType.WARNING
-                )
-                .notify(project)
-                
+            val result = javax.swing.JOptionPane.showConfirmDialog(
+                null,
+                message,
+                "Shortcut Conflict",
+                javax.swing.JOptionPane.YES_NO_OPTION,
+                javax.swing.JOptionPane.WARNING_MESSAGE
+            )
+            
+            result == javax.swing.JOptionPane.YES_OPTION
+            
         } catch (e: Exception) {
-            logger.error("Failed to show shortcut conflict notification", e)
+            logger.error("Failed to show shortcut conflict dialog", e)
+            // Default to false (don't replace) if dialog fails
+            false
         }
     }
 
