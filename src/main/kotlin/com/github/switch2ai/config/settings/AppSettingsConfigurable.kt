@@ -148,14 +148,17 @@ class AppSettingsConfigurable : Configurable {
         val addButton = JButton("Add Command")
         val removeButton = JButton("Remove Command")
         val resetButton = JButton("Reset Default")
+        val checkConflictsButton = JButton("Check Shortcut Conflicts")
         
         addButton.addActionListener { addCustomCommand() }
         removeButton.addActionListener { removeCustomCommand() }
         resetButton.addActionListener { resetCustomCommands() }
+        checkConflictsButton.addActionListener { checkShortcutConflicts() }
         
         buttonPanel.add(addButton)
         buttonPanel.add(removeButton)
         buttonPanel.add(resetButton)
+        buttonPanel.add(checkConflictsButton)
         
         panel.add(buttonPanel, BorderLayout.SOUTH)
         
@@ -399,6 +402,110 @@ class AppSettingsConfigurable : Configurable {
     private fun resetShortcutCommands() {
         val defaultConfig = PluginConfig.getDefaultConfig()
         loadShortcutCommandConfig(defaultConfig.promptConfiguration.shortcutCommands)
+    }
+
+    /**
+     * Check for shortcut conflicts
+     */
+    private fun checkShortcutConflicts() {
+        try {
+            val keymap = com.intellij.openapi.keymap.KeymapManager.getInstance().activeKeymap
+            val commandTableModel = customCommandTable?.model as DefaultTableModel
+            val conflicts = mutableListOf<String>()
+            
+            // Check each custom command shortcut
+            for (i in 0 until commandTableModel.rowCount) {
+                val shortcut = commandTableModel.getValueAt(i, 1) as String
+                val commandId = commandTableModel.getValueAt(i, 0) as String
+                
+                if (shortcut.isNotEmpty()) {
+                    val normalizedShortcut = processKeyMap(shortcut)
+                    val keyStroke = javax.swing.KeyStroke.getKeyStroke(normalizedShortcut)
+                    
+                    if (keyStroke != null) {
+                        val keyboardShortcut = com.intellij.openapi.actionSystem.KeyboardShortcut(keyStroke, null)
+                        val conflictingActions = keymap.getActionIds(keyboardShortcut)
+                        
+                        conflictingActions.forEach { actionId ->
+                            if (actionId != "switch2ai.$commandId") {
+                                val action = com.intellij.openapi.actionSystem.ActionManager.getInstance().getAction(actionId)
+                                val description = action?.templatePresentation?.text ?: actionId
+                                conflicts.add("• $shortcut: Conflicts with '$description' ($actionId)")
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // Check fixed shortcuts
+            val fixedShortcuts = listOf(
+                "Alt+Shift+K" to "switch2ai.promptAction"
+            )
+            
+            fixedShortcuts.forEach { (shortcut, actionId) ->
+                val normalizedShortcut = processKeyMap(shortcut)
+                val keyStroke = javax.swing.KeyStroke.getKeyStroke(normalizedShortcut)
+                
+                if (keyStroke != null) {
+                    val keyboardShortcut = com.intellij.openapi.actionSystem.KeyboardShortcut(keyStroke, null)
+                    val conflictingActions = keymap.getActionIds(keyboardShortcut)
+                    
+                    conflictingActions.forEach { conflictActionId ->
+                        if (conflictActionId != actionId) {
+                            val action = com.intellij.openapi.actionSystem.ActionManager.getInstance().getAction(conflictActionId)
+                            val description = action?.templatePresentation?.text ?: conflictActionId
+                            conflicts.add("• $shortcut: Conflicts with '$description' ($conflictActionId)")
+                        }
+                    }
+                }
+            }
+            
+            // Show results
+            if (conflicts.isEmpty()) {
+                JOptionPane.showMessageDialog(
+                    mainPanel,
+                    "No shortcut conflicts detected!",
+                    "Shortcut Conflict Check",
+                    JOptionPane.INFORMATION_MESSAGE
+                )
+            } else {
+                val message = "Shortcut conflicts detected:\n\n${conflicts.joinToString("\n")}\n\n" +
+                        "You can resolve these conflicts in Settings → Keymap."
+                JOptionPane.showMessageDialog(
+                    mainPanel,
+                    message,
+                    "Shortcut Conflicts Found",
+                    JOptionPane.WARNING_MESSAGE
+                )
+            }
+            
+        } catch (e: Exception) {
+            JOptionPane.showMessageDialog(
+                mainPanel,
+                "Failed to check shortcut conflicts: ${e.message}",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+            )
+        }
+    }
+
+    /**
+     * Process shortcut format, convert to IDEA plugin standard format
+     */
+    private fun processKeyMap(shortcut: String): String {
+        return shortcut.lowercase()
+                .replace("option", "alt")
+                .replace("cmd", "meta")
+                .replace("command", "meta")
+                .replace("ctrl", "control")
+                .split("+")
+                .map { it.trim() }
+                .filter { it.isNotEmpty() }
+                .let { parts ->
+                    val modifiers = parts.dropLast(1).joinToString(" ")
+                    val key = parts.lastOrNull()?.uppercase() ?: ""
+                    if (modifiers.isNotEmpty()) "$modifiers $key" else key
+                }
     }
 
     // AppSettingsConfigurable.kt

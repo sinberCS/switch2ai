@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - 修复了ConfigModel中AI命令格式问题，移除了多余引号
 - 修复了Claude Code和iflow命令模板中的语法错误
+- **修复了快捷键冲突处理问题**：当快捷键冲突时，现在会显示警告通知并继续注册
+- 添加了快捷键冲突检测机制，用户可以在设置中检查冲突
+
+### Added
+- 快捷键冲突检测功能：在设置界面添加了"Check Shortcut Conflicts"按钮
+- 快捷键冲突警告通知：当检测到冲突时会显示详细的冲突信息
+- 改进的快捷键注册逻辑：包含冲突检测和用户提示
 
 ### Changed
 - 版本号从0.1.0更新到0.1.1
@@ -19,6 +26,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Technical
 - 优化了AI命令的变量替换逻辑
 - 改进了命令模板的格式一致性
+- 实现了完整的快捷键冲突检测和处理机制
+- 添加了用户友好的冲突通知系统
 
 ## [0.1.0] - 2024-08-29
 

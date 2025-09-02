@@ -134,10 +134,17 @@ cd switch2ai
     - **Custom Commands Tab**: Configure custom commands with comprehensive variable support
         - Set command IDs, shortcuts, command templates, and descriptions
         - Support for variables: `$filePath`, `$projectPath`, `$line`, `$column`, `$selectedText`
+        - **Check Shortcut Conflicts**: Detect and resolve keyboard shortcut conflicts
     - **Shortcut Commands Tab**: Set up shortcut commands like `$test`, `$refactor`, `$explain`
         - Define short commands that expand to full prompts
         - Example: `$test` expands to "Please write unit tests for this function..."
     - Customize shortcuts through Keymap settings
+
+### Shortcut Conflict Resolution
+- **Automatic Detection**: The plugin automatically detects shortcut conflicts during registration
+- **User Notifications**: Shows warning notifications when conflicts are detected
+- **Manual Check**: Use "Check Shortcut Conflicts" button in settings to scan for conflicts
+- **Resolution**: Conflicts can be resolved in `Settings` → `Keymap` by reassigning shortcuts
 
 ### Default Configuration
 The plugin comes with pre-configured:

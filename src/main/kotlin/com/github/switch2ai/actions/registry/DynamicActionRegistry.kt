@@ -133,7 +133,7 @@ class DynamicActionRegistry {
     }
 
     /**
-     * Register shortcut
+     * Register shortcut with conflict detection and handling
      */
     private fun registerShortcut(project: Project, actionId: String, shortcutText: String) {
         try {
@@ -144,8 +144,24 @@ class DynamicActionRegistry {
             if (keyStroke != null) {
                 val keymap = com.intellij.openapi.keymap.KeymapManager.getInstance().activeKeymap
                 val shortcut = com.intellij.openapi.actionSystem.KeyboardShortcut(keyStroke, null)
+                
+                // Check for conflicts before registering
+                val conflicts = checkShortcutConflicts(keymap, shortcut, actionId)
+                
+                if (conflicts.isNotEmpty()) {
+                    logger.warn("Shortcut conflicts detected for $shortcutText:")
+                    conflicts.forEach { conflict ->
+                        logger.warn("  - Conflicts with action: ${conflict.actionId} (${conflict.description})")
+                    }
+                    
+                    // Show user notification about conflicts
+                    showShortcutConflictNotification(project, shortcutText, conflicts)
+                }
+                
+                // Register shortcut (this will override existing shortcuts)
                 keymap.addShortcut(actionId, shortcut)
                 logger.info("Shortcut registered: $shortcutText -> $actionId")
+                
             } else {
                 logger.error("Unable to parse shortcut: $shortcutText (processed: $normalizedShortcut)")
             }
@@ -391,4 +407,78 @@ class DynamicActionRegistry {
             return null
         }
     }
+
+    /**
+     * Check for shortcut conflicts
+     */
+    private fun checkShortcutConflicts(
+        keymap: com.intellij.openapi.keymap.Keymap,
+        shortcut: com.intellij.openapi.actionSystem.KeyboardShortcut,
+        newActionId: String
+    ): List<ShortcutConflict> {
+        val conflicts = mutableListOf<ShortcutConflict>()
+        
+        try {
+            // Get all actions that use this shortcut
+            val conflictingActions = keymap.getActionIds(shortcut)
+            
+            conflictingActions.forEach { actionId ->
+                // Skip if it's the same action (updating existing shortcut)
+                if (actionId != newActionId) {
+                    val action = ActionManager.getInstance().getAction(actionId)
+                    val description = action?.templatePresentation?.text ?: actionId
+                    
+                    conflicts.add(ShortcutConflict(actionId, description))
+                }
+            }
+            
+        } catch (e: Exception) {
+            logger.error("Failed to check shortcut conflicts", e)
+        }
+        
+        return conflicts
+    }
+
+    /**
+     * Show shortcut conflict notification to user
+     */
+    private fun showShortcutConflictNotification(
+        project: Project,
+        shortcutText: String,
+        conflicts: List<ShortcutConflict>
+    ) {
+        try {
+            val conflictList = conflicts.joinToString("\n") { "• ${it.description} (${it.actionId})" }
+            val message = """
+                Shortcut conflict detected for: $shortcutText
+                
+                This shortcut is already used by:
+                $conflictList
+                
+                The new shortcut will override the existing ones.
+                You can resolve conflicts in Settings → Keymap.
+            """.trimIndent()
+            
+            // Show notification using IntelliJ's notification system
+            com.intellij.notification.NotificationGroupManager.getInstance()
+                .getNotificationGroup("Switch2AI")
+                .createNotification(
+                    "Shortcut Conflict",
+                    message,
+                    com.intellij.notification.NotificationType.WARNING
+                )
+                .notify(project)
+                
+        } catch (e: Exception) {
+            logger.error("Failed to show shortcut conflict notification", e)
+        }
+    }
+
+    /**
+     * Data class for shortcut conflict information
+     */
+    private data class ShortcutConflict(
+        val actionId: String,
+        val description: String
+    )
 }
