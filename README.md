@@ -16,12 +16,6 @@ switch2ai - A JetBrains IDE plugin enabling seamless collaboration between JetBr
     - Automatically positions to the same cursor location (line and column)
     - Perfectly maintains editing context without interrupting workflow
 
-- 🤖 **Rapid AI Prompt Input**
-    - Quick AI prompt input with AI selection dropdown
-    - Support for multiple AI agents (Cursor, Qoder, Claude code, etc.)
-    - Intelligent context-aware prompt processing
-    - Support for shortcut commands like `$test`, `$refactor`, `$explain`
-
 - ⌨️ **Convenient Shortcut Support**
     - macOS:
         - `Option+Shift+K` - Open AI prompt input popup
@@ -36,6 +30,12 @@ switch2ai - A JetBrains IDE plugin enabling seamless collaboration between JetBr
         - `Alt+Shift+U` - Open current file in Qoder
         - `Alt+Shift+I` - Open project in Qoder
 
+- 🤖 **Rapid AI Prompt Input**
+    - Quick AI prompt input with AI selection dropdown
+    - Support for multiple AI agents (Cursor, Qoder, Claude code, etc.)
+    - Intelligent context-aware prompt processing
+    - Support for shortcut commands like `$test`, `$refactor`, `$explain`
+
 - 🔧 **Multiple Access Methods**
     - Keyboard shortcuts
     - Editor context menu
@@ -48,21 +48,15 @@ switch2ai - A JetBrains IDE plugin enabling seamless collaboration between JetBr
     - Completely customizable command templates
     - Dynamic command registration and management
 
-## 📦 Download Plugin
-
-### Latest Release
-- **Download**: [switch2ai-0.1.2.zip](https://github.com/sinberCS/switch2ai/releases/latest/download/switch2ai-0.1.2.zip)
-- **Direct Download**: [switch2ai-0.1.2.zip](./images/switch2ai-0.1.2.zip)
-- **Version**: 0.1.2
-- **Release Date**: Latest
-- **Compatibility**: JetBrains IDEs 2022.3+
-
-### Previous Versions
-- [All Releases](https://github.com/sinberCS/switch2ai/releases)
-
 ## 🛠️ Installation Guide
 
-### Method 1: Local Installation (Recommended)
+### Method 1: Install via JetBrains Marketplace (Recommended)
+- Plugin is now available on the official JetBrains Marketplace
+- One-click installation directly from IDE
+- Automatic updates
+- **Search for "switch2ai" in your IDE's plugin marketplace**
+
+### Method 2: Local Installation
 1. **Download** the latest plugin package from the [Releases page](https://github.com/sinberCS/switch2ai/releases)
 2. **Open** your JetBrains IDE
 3. **Go to** `Settings` (Windows/Linux) or `Preferences` (macOS)
@@ -71,7 +65,7 @@ switch2ai - A JetBrains IDE plugin enabling seamless collaboration between JetBr
 6. **Click** `OK` to apply changes
 7. **Restart** your IDE when prompted
 
-### Method 2: Build from Source
+### Method 3: Build from Source
 ```bash
 # Clone repository
 git clone https://github.com/sinberCS/switch2ai.git
@@ -81,17 +75,27 @@ cd switch2ai
 ./gradlew buildPlugin
 
 # Plugin package will be generated in build/distributions/ directory
-# Install the generated .zip file using Method 1
+# Install the generated .zip file using Method 2
 ```
-
-### Method 3: Install via JetBrains Marketplace (Coming Soon)
-- Plugin will be available on the official JetBrains Marketplace
-- One-click installation directly from IDE
-- Automatic updates
 
 ## 🚀 Usage Guide
 
 ### Basic Usage
+
+
+#### Open Project/File in Cursor Editor
+- Shortcuts:
+    - macOS: `Option+Shift+O` (file), `Option+Shift+P` (project)
+    - Windows: `Alt+Shift+O` (file), `Alt+Shift+P` (project)
+- Context Menu: Right-click in project view → `Open Project In Cursor Editor`
+- Tools Menu: `Tools` → `Open Project In Cursor Editor`
+
+#### Open in Qoder
+- Shortcuts:
+    - macOS: `Option+Shift+U` (file), `Option+Shift+I` (project)
+    - Windows: `Alt+Shift+U` (file), `Alt+Shift+I` (project)
+- Context Menu: Right-click in editor → `Open In Qoder`
+- Tools Menu: `Tools` → `Open In Qoder`
 
 #### AI Prompt Input
 - Shortcuts:
@@ -104,27 +108,6 @@ cd switch2ai
     - Input prompts with intelligent context awareness
     - Support for shortcut commands like `$test`, `$refactor`, `$explain`
     - Popup appears at cursor position for quick access
-
-#### Open Project in AI Editor
-- Shortcuts:
-    - macOS: `Option+Shift+P`
-    - Windows: `Alt+Shift+P`
-- Context Menu: Right-click in project view → `Open Project In AI Editor`
-- Tools Menu: `Tools` → `Open Project In AI Editor`
-
-#### Open Current File in AI Editor
-- Shortcuts:
-    - macOS: `Option+Shift+O`
-    - Windows: `Alt+Shift+O`
-- Context Menu: Right-click in editor → `Open File In AI Editor`
-- Tools Menu: `Tools` → `Open File In AI Editor`
-
-#### Open in Qoder
-- Shortcuts:
-    - macOS: `Option+Shift+U` (file), `Option+Shift+I` (project)
-    - Windows: `Alt+Shift+U` (file), `Alt+Shift+I` (project)
-- Context Menu: Right-click in editor → `Open In Qoder`
-- Tools Menu: `Tools` → `Open In Qoder`
 
 ### Configuration
 - In `Settings/Preferences` → `Tools` → `switch2ai`:
@@ -159,6 +142,11 @@ The plugin comes with pre-configured:
 - Terminal plugin enabled for integrated terminal execution
 
 ## 🧑‍💻 Developer Guide
+
+### Download Plugin
+- **Latest Release**: [switch2ai-0.1.2.zip](https://github.com/sinberCS/switch2ai/releases/latest/download/switch2ai-0.1.2.zip)
+- **All Releases**: [Releases Page](https://github.com/sinberCS/switch2ai/releases)
+- **Compatibility**: JetBrains IDEs 2022.3+
 
 ### Project Structure
 ```

@@ -18,12 +18,6 @@ switch2ai - 一个 JetBrains IDE 插件，实现 JetBrains IDE 与各种 AI 代�
   - 自动定位到相同的光标位置（行号和列号）
   - 完美保持编辑上下文，不中断思路
 
-- 🤖 **快速 AI 提示词输入**
-  - 支持 AI 选择的快速提示词输入弹窗
-  - 支持多种 AI 代理（Cursor、Qoder、Claude code 等）
-  - 智能上下文感知的提示词处理
-  - 支持快捷命令如 `$test`、`$refactor`、`$explain`
-
 - ⌨️ **便捷的快捷键支持**
   - macOS:
     - `Option+Shift+K` - 打开 AI 提示词输入弹窗
@@ -38,10 +32,11 @@ switch2ai - 一个 JetBrains IDE 插件，实现 JetBrains IDE 与各种 AI 代�
     - `Alt+Shift+U` - 在 Qoder 中打开当前文件
     - `Alt+Shift+I` - 在 Qoder 中打开项目
 
-- 🔧 **多样化的访问方式**
-  - 快捷键操作
-  - 编辑器右键菜单
-  - IDE 工具菜单
+- 🤖 **快速 AI 提示词输入**
+  - 支持 AI 选择的快速提示词输入弹窗
+  - 支持多种 AI 代理（Cursor、Qoder、Claude code 等）
+  - 智能上下文感知的提示词处理
+  - 支持快捷命令如 `$test`、`$refactor`、`$explain`
 
 - ⚡ **完全可配置的自定义命令**
   - 支持全面变量替换的自定义命令执行
@@ -50,21 +45,15 @@ switch2ai - 一个 JetBrains IDE 插件，实现 JetBrains IDE 与各种 AI 代�
   - 完全可配置的命令模板
   - 动态命令注册和管理
 
-## 📦 下载插件
-
-### 最新版本
-- **下载**: [switch2ai-0.1.2.zip](https://github.com/sinberCS/switch2ai/releases/latest/download/switch2ai-0.1.2.zip)
-- **直接下载**: [switch2ai-0.1.2.zip](./images/switch2ai-0.1.2.zip)
-- **版本**: 0.1.2
-- **发布日期**: 最新
-- **兼容性**: JetBrains IDEs 2022.3+
-
-### 历史版本
-- [所有版本](https://github.com/sinberCS/switch2ai/releases)
-
 ## 🛠️ 安装指南
 
-### 方式一：本地安装（推荐）
+### 方式一：通过 JetBrains 市场安装（推荐）
+- 插件现已在官方 JetBrains 市场上可用
+- 直接从 IDE 一键安装
+- 自动更新
+- **在您的 IDE 插件市场中搜索 "switch2ai"**
+
+### 方式二：本地安装
 1. **下载** 最新插件包，从 [Releases 页面](https://github.com/sinberCS/switch2ai/releases)
 2. **打开** 你的 JetBrains IDE
 3. **进入** `设置` (Windows/Linux) 或 `偏好设置` (macOS)
@@ -73,7 +62,7 @@ switch2ai - 一个 JetBrains IDE 插件，实现 JetBrains IDE 与各种 AI 代�
 6. **点击** `确定` 应用更改
 7. **重启** IDE（当提示时）
 
-### 方式二：从源码构建
+### 方式三：从源码构建
 ```bash
 # 克隆仓库
 git clone https://github.com/sinberCS/switch2ai.git
@@ -83,17 +72,27 @@ cd switch2ai
 ./gradlew buildPlugin
 
 # 插件包将生成在 build/distributions/ 目录中
-# 使用方法 1 安装生成的 .zip 文件
+# 使用方式二安装生成的 .zip 文件
 ```
-
-### 方式三：通过 JetBrains 市场安装（即将推出）
-- 插件将在官方 JetBrains 市场上可用
-- 直接从 IDE 一键安装
-- 自动更新
 
 ## 🚀 使用说明
 
 ### 基础使用
+
+
+#### 在 Cursor 编辑器中打开项目/文件
+- 快捷键：
+  - macOS: `Option+Shift+O` (文件), `Option+Shift+P` (项目)
+  - Windows: `Alt+Shift+O` (文件), `Alt+Shift+P` (项目)
+- 右键菜单：在项目视图中右键 → `在 Cursor 编辑器中打开项目`
+- 工具菜单：`Tools` → `在 Cursor 编辑器中打开项目`
+
+#### 在 Qoder 中打开
+- 快捷键：
+  - macOS: `Option+Shift+U` (文件), `Option+Shift+I` (项目)
+  - Windows: `Alt+Shift+U` (文件), `Alt+Shift+I` (项目)
+- 右键菜单：在编辑器中右键 → `在 Qoder 中打开`
+- 工具菜单：`Tools` → `在 Qoder 中打开`
 
 #### AI 提示词输入
 - 快捷键：
@@ -107,26 +106,6 @@ cd switch2ai
   - 支持快捷命令如 `$test`、`$refactor`、`$explain`
   - 弹窗在光标位置显示，快速访问
 
-#### 在 Cursor 编辑器中打开项目
-- 快捷键：
-  - macOS: `Option+Shift+P` 
-  - Windows: `Alt+Shift+P`
-- 右键菜单：在项目视图中右键 → `在 Cursor 编辑器中打开项目`
-- 工具菜单：`Tools` → `在 Cursor 编辑器中打开项目`
-
-#### 在 Cursor 编辑器中打开当前文件
-- 快捷键：
-  - macOS: `Option+Shift+O` 
-  - Windows: `Alt+Shift+O`
-- 右键菜单：在编辑器中右键 → `在 Cursor 编辑器中打开文件`
-- 工具菜单：`Tools` → `在 Cursor 编辑器中打开文件`
-
-#### 在 Qoder 中打开
-- 快捷键：
-  - macOS: `Option+Shift+U` (文件), `Option+Shift+I` (项目)
-  - Windows: `Alt+Shift+U` (文件), `Alt+Shift+I` (项目)
-- 右键菜单：在编辑器中右键 → `在 Qoder 中打开`
-- 工具菜单：`Tools` → `在 Qoder 中打开`
 
 ### 配置
 - 在 `Settings/Preferences` → `Tools` → `switch2ai` 中：
@@ -161,6 +140,11 @@ cd switch2ai
 - 启用 Terminal 插件以支持集成终端执行
 
 ## 🧑‍💻 开发者指南
+
+### 下载插件
+- **最新版本**: [switch2ai-0.1.2.zip](https://github.com/sinberCS/switch2ai/releases/latest/download/switch2ai-0.1.2.zip)
+- **所有版本**: [版本页面](https://github.com/sinberCS/switch2ai/releases)
+- **兼容性**: JetBrains IDEs 2022.3+
 
 ### 项目结构
 ```
